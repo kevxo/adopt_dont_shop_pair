@@ -1,13 +1,7 @@
-<form method="get" action="/shelters">
-    <input type="submit" value="Return to All Shelters">
-</form>
-
 <p><b> ID: <%= @shelter.id %> - <%= @shelter.name %></b><br/>
 <%= @shelter.address %><br/>
 <%= @shelter.city %><br/>
 <%= @shelter.state %><br/>
 <%= @shelter.zip%></p>
 
-<form method="get" action="/shelters/<%= @shelter.id %>/edit">
-    <input type="submit" value="Update Shelter">
-</form>
+<a href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a>

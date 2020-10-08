@@ -14,6 +14,11 @@ describe "When I have clicked the button 'New Shelter' " do
 
       click_button 'Create Shelter'
       expect(page).to have_content('Dog and Cats')
+      expect(page).to have_content('1234 spoon.st')
+      expect(page).to have_content('Tampa')
+      expect(page).to have_content('Florida')
+      expect(page).to have_content('34638')
+      expect(current_path).to eq('/shelters')
     end
   end
 end

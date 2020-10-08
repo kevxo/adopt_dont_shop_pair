@@ -5,10 +5,10 @@ describe 'As a visitor' do
     it "should see link create a new shelter, 'New Shelter'" do
       visit '/shelters'
 
-      expect(page).to have_button('New Shelter')
+      expect(page).to have_link('New Shelter')
 
       visit '/shelters'
-      click_button 'New Shelter'
+      click_link 'New Shelter'
 
       expect(current_path).to eq('/shelters/new')
     end
