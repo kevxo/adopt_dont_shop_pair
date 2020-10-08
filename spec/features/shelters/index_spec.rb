@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 describe 'As a visitor' do
+  describe 'When I visit the Shelter Index Page' do
+    it "should see link create a new shelter, 'New Shelter'" do
+      visit '/shelters'
+
+      expect(page).to have_button('New Shelter')
+
+      visit '/shelters'
+      click_button 'New Shelter'
+
+      expect(current_path).to eq('/shelters/new')
+    end
+  end
+end
+
+describe 'As a visitor' do
   describe "When I visit '/shelters' " do
     it 'Then I see the name of each shelter in the system' do
       shelter1 = Shelter.create(name: 'Dogs and Cats',
