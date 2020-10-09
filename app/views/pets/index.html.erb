@@ -1,7 +1,7 @@
 <h1>All Pets</h1>
 
 <% @pets.each do |pet|%>
-  <img src="<%= pet.image %>">
+  <img src="<%= pet.image %>" width="200" height="100">
   <%= pet.name %>
   <%= pet.approximate_age %>
   <%= pet.sex %>

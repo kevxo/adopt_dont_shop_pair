@@ -44,3 +44,29 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe "When I visit '/shelters/:shelter_id/pets'" do
+    it 'should see each Pet that can be adopted from that Shelter with its
+    shelter_id and its info' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      pet1 = Pet.create(image: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                        name: 'Mittens',
+                        approximate_age: '6 years',
+                        sex: 'Male',
+                        shelter_id: shelter1.id)
+
+      visit "/shelters/#{shelter1.id}/pets"
+
+      expect(page).to have_content("Available Pets - #{pet1.shelter_id}")
+      expect(page).to have_xpath("//img[contains(@src,'#{pet1.image}')]")
+      expect(page).to have_content(pet1.name)
+      expect(page).to have_content(pet1.approximate_age)
+      expect(page).to have_content(pet1.sex)
+    end
+  end
+end
