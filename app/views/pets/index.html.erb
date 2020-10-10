@@ -1,8 +1,7 @@
 <h1>All Pets</h1>
 
-
 <% @pets.each do |pet|%>
-<a href="/shelters/<%= pet.shelters_id %>/pets/new">Create Pet</a>
+  <a href="/shelters/<%= pet.shelters_id %>/pets/new">Create Pet</a><br/>
   <img src="<%= pet.image %>" width="200" height="100"><br/>
   <h3>Name - <%= pet.name %><br/>
   Description - <%= pet.description %><br/>
