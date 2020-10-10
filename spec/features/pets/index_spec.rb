@@ -12,13 +12,13 @@ describe 'As a visitor' do
                         name: 'Mittens',
                         approximate_age: '6 years',
                         sex: 'Male',
-                        shelter_id: shelter1.id)
+                        shelters_id: shelter1.id)
 
       pet2 = Pet.create(image: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
                         name: 'Tiger',
                         approximate_age: '4 years',
                         sex: 'Male',
-                        shelter_id: shelter1.id)
+                        shelters_id: shelter1.id)
 
       visit '/pets'
 
@@ -31,8 +31,8 @@ describe 'As a visitor' do
       expect(page).to have_content(pet2.approximate_age)
       expect(page).to have_content(pet1.sex)
       expect(page).to have_content(pet2.sex)
-      expect(page).to have_content(pet1.shelter_id)
-      expect(page).to have_content(pet2.shelter_id)
+      expect(page).to have_content(pet1.shelters_id)
+      expect(page).to have_content(pet2.shelters_id)
     end
   end
 end
