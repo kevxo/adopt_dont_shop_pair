@@ -1,0 +1,17 @@
+<%= form_tag "/pets/#{@pet.id}", method: 'patch' do %>
+  <h1>Pet Information</h1>
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <p>Enter a Pet image:</p>
+  <input type='text' name='pet[image]'/><br/>
+  <p>Enter Pet name:</p>
+  <input type='text' name='pet[name]'/><br/>
+  <p>Enter Pet description:</p>
+  <input type='text' name='pet[description]'/><br/>
+  <p>Enter Pet Age:</p>
+  <input type='text' name='pet[approximate_age]'/><br/>
+  <p>Enter Pet Sex:</p>
+  <input type='text' name='pet[sex]'/><br/>
+  <p>Adoptable?:</p>
+  <input type='text' name='pet[adoptable]'/><br/>
+  <input type='submit' value="Update Pet"/>
+<% end %>

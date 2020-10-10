@@ -3,7 +3,9 @@ class SheltersController < ApplicationController
     @shelters = Shelter.all
   end
 
-  def new; end
+  def new
+
+  end
 
   def create
     shelter = Shelter.new({
