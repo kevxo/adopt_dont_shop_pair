@@ -1,12 +1,14 @@
-<p><b> ID: <%= @shelter.id %> - <%= @shelter.name %></b><br/>
+<a class="index_links" href="/shelters/<%= @shelter.id %>/pets">Pet Index</a>
+
+<p class="info"><b> ID: <%= @shelter.id %> - <%= @shelter.name %></b><br/>
 <%= @shelter.address %><br/>
 <%= @shelter.city %><br/>
 <%= @shelter.state %><br/>
-<%= @shelter.zip%></p>
+<%= @shelter.zip%><br/>
 
-<a href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a>
+<a href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a></p>
 
-<form action="/shelters/<%= @shelter.id %>" method="POST">
+<form class="delete_index" action="/shelters/<%= @shelter.id %>" method="POST">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="Delete Shelter"/>

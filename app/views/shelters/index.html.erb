@@ -1,11 +1,18 @@
-<h1>All Shelters</h1>
+<h1 class="title">All Shelters</h1>
 
-<a href="/shelters/new">New Shelter</a>
+<a class="index_links" href="/shelters/new">New Shelter</a>
+<a class="index_links" href="/pets">Pet Index</a>
 
 <% @shelters.each do |shelter| %>
-  <p><b><a href="/shelters/<%= shelter.id %>"><%= shelter.name %></a></b><br/>
+  <p class="info"><a class="edit" href="/shelters/<%= shelter.id %>/edit">Edit</a>
+  <b><a class="shelter_name" href="/shelters/<%= shelter.id %>"><%= shelter.name %></a></b><br/>
   <%= shelter.address %><br/>
   <%= shelter.city %><br/>
   <%= shelter.state %><br/>
-  <%= shelter.zip%></p>
+  <%= shelter.zip%><br/>
+  <form class="delete_index" action="/shelters/<%= shelter.id %>" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete"/>
+  </form></p>
 <% end %>

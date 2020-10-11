@@ -1,0 +1,45 @@
+.info {
+  border-style: solid;
+  position: relative;
+  left: 10px;
+  background-color: bisque;
+  padding: 10px;
+}
+
+.title{
+background-color: bisque;
+text-align: center;
+}
+
+.shelter_name{
+  position: relative;
+  right: 50px;
+  color: black;
+}
+
+.index_links{
+  background-color: black;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+ position: relative;
+ left: 500px;
+ border-style: inset;
+}
+
+.edit {
+  background-color: black;
+  color: white;
+  padding: 14px;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  left: 500px;
+}
+
+.delete_index {
+  position: relative;
+  left: 10px;
+}

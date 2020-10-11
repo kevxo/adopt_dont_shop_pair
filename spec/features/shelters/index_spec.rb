@@ -44,3 +44,81 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'when I visit the shelter index page' do
+    it 'should have a link where I can click and be directed to
+    where I can edit the shelter' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit '/shelters'
+
+      expect(page).to have_link('Edit')
+
+      visit '/shelters'
+      click_link 'Edit'
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}/edit")
+    end
+  end
+end
+
+describe 'As a visitor' do
+  describe 'When I visit the shelter Index page' do
+    it 'should see a link to delete that shelter and when I click Im
+    returned to the shelter index page' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit '/shelters'
+
+      expect(page).to have_button('Delete')
+
+      visit '/shelters'
+      click_button 'Delete'
+
+      expect(current_path).to eq('/shelters')
+    end
+  end
+end
+
+describe 'As a visitor' do
+  describe 'When I click on the name of a shelter anywhere on the sit' do
+    it 'should take me to its show page' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit '/shelters'
+
+      expect(page).to have_link("#{shelter1.name}")
+
+      visit '/shelters'
+      click_link "#{shelter1.name}"
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}")
+    end
+  end
+end
+
+describe 'As a visitor' do
+  describe 'When I visit any page on the site' do
+    it 'should see a link that takes me to the Pet Index page' do
+      visit '/shelters'
+
+      expect(page).to have_link('Pet Index')
+
+      visit '/shelters'
+
+      click_link 'Pet Index'
+
+      expect(current_path).to eq('/pets')
+    end
+  end
+end
