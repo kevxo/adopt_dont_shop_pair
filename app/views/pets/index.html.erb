@@ -1,5 +1,7 @@
 <h1>All Pets</h1>
 
+<a href="/shelters">Shelter Index</a><br/>
+
 <% @pets.each do |pet|%>
   <a href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
   <img src="<%= pet.image %>" width="200" height="100"><br/>
