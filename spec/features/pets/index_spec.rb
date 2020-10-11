@@ -148,3 +148,33 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'When I click on the name of a pet anywhere on the site' do
+    it 'the link should take me to the show page' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      pet1 = Pet.create(image: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                        name: 'Mittens',
+                        approximate_age: '6 years',
+                        sex: 'Male',
+                        shelters_id: shelter1.id)
+
+      visit "/shelters/#{shelter1.id}/pets"
+
+      expect(page).to have_link(pet1.name.to_s)
+
+      visit '/pets'
+      expect(page).to have_link(pet1.name.to_s)
+
+      visit "/shelters/#{shelter1.id}/pets"
+      visit '/pets'
+      click_link pet1.name.to_s
+
+      expect(current_path).to eq("/pets/#{pet1.id}")
+    end
+  end
+end

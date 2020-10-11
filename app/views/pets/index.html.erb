@@ -3,9 +3,9 @@
 <% @pets.each do |pet|%>
   <a href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
   <img src="<%= pet.image %>" width="200" height="100"><br/>
-  <h4>ID - <a href="/pets/<%= pet.id %>"><%= pet.id %></a></h4>
   <h4><a href="/pets/<%= pet.id %>/edit">Edit Pet</a></h4>
-  <h3>Name - <%= pet.name %><br/>
+  <h3>ID - <%= pet.id %><br/>
+  Name - <a href="/pets/<%= pet.id %>"><%= pet.name %></a><br/>
   Description - <%= pet.description %><br/>
   Age - <%= pet.approximate_age %><br/>
   Sex - <%= pet.sex %><br/>
