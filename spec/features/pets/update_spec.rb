@@ -7,15 +7,15 @@ describe "When I'm taken to '/pets/:id/edit'" do
                               city: 'Tampa',
                               state: 'Florida',
                               zip: '34638')
-    pet2 = Pet.create(image: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+    pet2 = Pet.create(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
                       name: 'Tiger',
                       approximate_age: '4 years',
                       sex: 'Male',
-                      shelters_id: shelter1.id)
+                      shelter_id: shelter1.id)
 
     visit "/pets/#{pet2.id}/edit"
 
-    fill_in 'pet[image]',	with: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg'
+    fill_in 'pet[img]',	with: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg'
     fill_in 'pet[name]',	with: 'Tiger'
     fill_in 'pet[description]',	with: 'Small and Cute'
     fill_in 'pet[approximate_age]',	with: '2 years'
