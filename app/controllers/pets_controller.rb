@@ -14,6 +14,7 @@ class PetsController < ApplicationController
                     description: params[:pet][:description],
                     approximate_age: params[:pet][:approximate_age],
                     sex: params[:pet][:sex],
+                    adoptable: params[:pet][:adoptable],
                     shelters_id: params[:id]
                   })
 
