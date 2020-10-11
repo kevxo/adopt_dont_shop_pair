@@ -5,7 +5,7 @@
 <% @pets.each do |pet|%>
   <a class="index_links" href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
   <h3 class="info">
-  <img src="<%= pet.image %>" width="200" height="100"><br/>
+  <img src="<%= pet.img %>" width="200" height="100"><br/>
   <a class="edit" href="/pets/<%= pet.id %>/edit">Edit Pet</a>
   ID - <%= pet.id %><br/>
   Name - <a href="/pets/<%= pet.id %>"><%= pet.name %></a><br/>
@@ -13,7 +13,7 @@
   Age - <%= pet.approximate_age %><br/>
   Sex - <%= pet.sex %><br/>
   Adoptable - <%= pet.adoptable %><br/>
-  Shelter ID - <%= pet.shelters_id %></h3>
+  Shelter ID - <%= pet.shelter_id %></h3>
   <form class="delete_index" action="/pets/<%= pet.id %>" method="POST">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name="_method" value="DELETE">

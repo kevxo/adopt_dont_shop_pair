@@ -9,13 +9,13 @@ class PetsController < ApplicationController
 
   def create
     pet = Pet.new({
-                    image: params[:pet][:image],
+                    img: params[:pet][:img],
                     name: params[:pet][:name],
                     description: params[:pet][:description],
                     approximate_age: params[:pet][:approximate_age],
                     sex: params[:pet][:sex],
                     adoptable: params[:pet][:adoptable],
-                    shelters_id: params[:id]
+                    shelter_id: params[:id]
                   })
 
     pet.save
@@ -33,7 +33,7 @@ class PetsController < ApplicationController
   def update
     pet = Pet.find(params[:id])
     pet.update({
-                 image: params[:pet][:image],
+                 img: params[:pet][:img],
                  name: params[:pet][:name],
                  description: params[:pet][:description],
                  approximate_age: params[:pet][:approximate_age],

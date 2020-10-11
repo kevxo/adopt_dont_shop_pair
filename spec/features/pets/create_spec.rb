@@ -11,7 +11,7 @@ describe "When I have clicked the link 'Create Pet'" do
                               zip: '34638')
     visit "/shelters/#{shelter1.id}/pets/new"
 
-    fill_in 'pet[image]',	with: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg'
+    fill_in 'pet[img]',	with: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg'
     fill_in 'pet[name]',	with: 'Lucy'
     fill_in 'pet[description]',	with: 'Demon eyes and ruffled tongue'
     fill_in 'pet[approximate_age]',	with: '2 years'
