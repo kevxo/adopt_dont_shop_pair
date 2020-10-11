@@ -65,3 +65,32 @@ describe 'As a visitor' do
     end
   end
 end
+
+# User Story 14, Shelter Delete From Shelter Index Page
+
+# As a visitor
+# When I visit the shelter index page
+# Next to every shelter, I see a link to delete that shelter
+# When I click the link
+# I am returned to the Shelter Index Page where I no longer see that shelter
+
+describe 'As a visitor' do
+  describe 'When I visit the shelter Index page' do
+    it 'should see a link to delete that shelter and when I click Im
+    returned to the shelter index page' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit '/shelters'
+
+      expect(page).to have_button('Delete')
+
+      visit '/shelters'
+      click_button 'Delete'
+
+      expect(current_path).to eq('/shelters')
+    end
+  end
+end
