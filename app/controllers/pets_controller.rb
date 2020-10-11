@@ -13,11 +13,12 @@ class PetsController < ApplicationController
                     name: params[:pet][:name],
                     description: params[:pet][:description],
                     approximate_age: params[:pet][:approximate_age],
-                    sex: params[:pet][:sex]
+                    sex: params[:pet][:sex],
+                    adoptable: params[:pet][:adoptable],
+                    shelters_id: params[:id]
                   })
 
     pet.save
-
     redirect_to "/shelters/#{params[:id]}/pets"
   end
 
