@@ -118,3 +118,33 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'When I visit the pets index or a shelter pets index page' do
+    it 'I should see a button to delete tha pet. When I click I should not see the pet' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      pet1 = Pet.create(image: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                        name: 'Mittens',
+                        approximate_age: '6 years',
+                        sex: 'Male',
+                        shelters_id: shelter1.id)
+
+      visit "/shelters/#{shelter1.id}/pets"
+
+      expect(page).to have_button('Delete Pet')
+
+      visit '/pets'
+      expect(page).to have_button('Delete Pet')
+
+      visit "/shelters/#{shelter1.id}/pets"
+      visit '/pets'
+      click_button 'Delete Pet'
+
+      expect(current_path).to eq('/pets')
+    end
+  end
+end
