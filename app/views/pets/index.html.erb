@@ -1,19 +1,20 @@
-<h1>All Pets</h1>
+<h1 class="title">All Pets</h1>
 
-<a href="/shelters">Shelter Index</a><br/>
+<a class="index_links" href="/shelters">Shelter Index</a>
 
 <% @pets.each do |pet|%>
-  <a href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
+  <a class="index_links" href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
+  <h3 class="info">
   <img src="<%= pet.image %>" width="200" height="100"><br/>
-  <h4><a href="/pets/<%= pet.id %>/edit">Edit Pet</a></h4>
-  <h3>ID - <%= pet.id %><br/>
+  <a class="edit" href="/pets/<%= pet.id %>/edit">Edit Pet</a>
+  ID - <%= pet.id %><br/>
   Name - <a href="/pets/<%= pet.id %>"><%= pet.name %></a><br/>
   Description - <%= pet.description %><br/>
   Age - <%= pet.approximate_age %><br/>
   Sex - <%= pet.sex %><br/>
   Adoptable - <%= pet.adoptable %><br/>
   Shelter ID - <%= pet.shelters_id %></h3>
-  <form action="/pets/<%= pet.id %>" method="POST">
+  <form class="delete_index" action="/pets/<%= pet.id %>" method="POST">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="Delete Pet"/>
