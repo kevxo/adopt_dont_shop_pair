@@ -1,9 +1,10 @@
 <h1>All Shelters</h1>
 
-<a href="/shelters/new">New Shelter</a>
+<a href="/shelters/new">New Shelter</a><br/>
 
 <% @shelters.each do |shelter| %>
-  <p><b><a href="/shelters/<%= shelter.id %>"><%= shelter.name %></a></b><br/>
+  <p><a href="/shelters/<%= shelter.id %>/edit">Edit</a><br/>
+  <b><a href="/shelters/<%= shelter.id %>"><%= shelter.name %></a></b><br/>
   <%= shelter.address %><br/>
   <%= shelter.city %><br/>
   <%= shelter.state %><br/>

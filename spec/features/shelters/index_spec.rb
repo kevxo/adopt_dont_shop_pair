@@ -44,3 +44,24 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'when I visit the shelter index page' do
+    it 'should have a link where I can click and be directed to
+    where I can edit the shelter' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit '/shelters'
+
+      expect(page).to have_link('Edit')
+
+      visit '/shelters'
+      click_link 'Edit'
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}/edit")
+    end
+  end
+end
