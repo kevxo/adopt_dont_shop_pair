@@ -58,8 +58,8 @@ describe 'As a visitor' do
 end
 
 describe 'As a visitor' do
-  describe 'When I visit any page on the site' do
-    it 'should see a link that takes me to the Pet Index page' do
+  describe 'When I visit the shelter show page' do
+    it 'should see a link that takes me to the Shelters Pet Index page' do
       shelter1 = Shelter.create(name: 'Dogs and Cats',
                                 address: '1234 spoon.st',
                                 city: 'Tampa',
