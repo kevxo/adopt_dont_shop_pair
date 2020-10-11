@@ -52,7 +52,7 @@ describe 'As a visitor' do
                         sex: 'Male',
                         shelters_id: shelter1.id)
 
-      visit "/shelters/#{pet1.id}/pets"
+      visit "/shelters/#{shelter1.id}/pets"
 
       expect(page).to have_content("All Pets")
       expect(page).to have_xpath("//img[contains(@src,'#{pet1.image}')]")
@@ -77,11 +77,11 @@ describe 'As a visitor' do
                         sex: 'Male',
                         shelters_id: shelter1.id)
 
-      visit "/shelters/#{pet1.id}/pets"
+      visit "/shelters/#{shelter1.id}/pets"
 
       expect(page).to have_link('Create Pet')
 
-      visit "/shelters/#{pet1.id}/pets"
+      visit "/shelters/#{shelter1.id}/pets"
       click_link 'Create Pet'
 
       expect(current_path).to eq("/shelters/#{shelter1.id}/pets/new")
