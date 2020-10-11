@@ -106,3 +106,19 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'When I visit any page on the site' do
+    it 'should see a link that takes me to the Pet Index page' do
+      visit '/shelters'
+
+      expect(page).to have_link('Pet Index')
+
+      visit '/shelters'
+
+      click_link 'Pet Index'
+
+      expect(current_path).to eq('/pets')
+    end
+  end
+end

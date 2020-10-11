@@ -56,3 +56,24 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'When I visit any page on the site' do
+    it 'should see a link that takes me to the Pet Index page' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit "/shelters/#{shelter1.id}"
+
+      expect(page).to have_link('Pet Index')
+
+      visit "/shelters/#{shelter1.id}"
+
+      click_link 'Pet Index'
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}/pets")
+    end
+  end
+end
