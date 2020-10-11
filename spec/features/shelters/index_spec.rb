@@ -86,3 +86,23 @@ describe 'As a visitor' do
     end
   end
 end
+
+describe 'As a visitor' do
+  describe 'When I click on the name of a shelter anywhere on the sit' do
+    it 'should take me to its show page' do
+      shelter1 = Shelter.create(name: 'Dogs and Cats',
+                                address: '1234 spoon.st',
+                                city: 'Tampa',
+                                state: 'Florida',
+                                zip: '34638')
+      visit '/shelters'
+
+      expect(page).to have_link("#{shelter1.name}")
+
+      visit '/shelters'
+      click_link "#{shelter1.name}"
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}")
+    end
+  end
+end
