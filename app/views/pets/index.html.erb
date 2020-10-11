@@ -1,9 +1,9 @@
 <h1 class="title">All Pets</h1>
 
 <a class="index_links" href="/shelters">Shelter Index</a>
+<a class="index_links" href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
 
 <% @pets.each do |pet|%>
-  <a class="index_links" href="/shelters/<%= params[:id] %>/pets/new">Create Pet</a><br/>
   <h3 class="info">
   <img src="<%= pet.img %>" width="200" height="100"><br/>
   <a class="edit" href="/pets/<%= pet.id %>/edit">Edit Pet</a>
