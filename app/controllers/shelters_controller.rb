@@ -47,4 +47,9 @@ class SheltersController < ApplicationController
     Shelter.destroy(params[:id])
     redirect_to '/shelters'
   end
+
+  def pet_index
+    shelter_id = params[:id]
+    @pets = Pet.where("shelter_id  = #{shelter_id}")
+  end
 end
