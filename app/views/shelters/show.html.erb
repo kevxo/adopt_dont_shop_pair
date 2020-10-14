@@ -17,11 +17,12 @@
 <h1>Reviews</h1>
 <% @reviews.each do |review| %>
   <section id="review-<%= review.id %>">
-    <img src="<%= review.picture %>" width="100px"<br/>
+    <img src="<%= review.picture %>" width="100px"><br/>
     Name - <%= review.user_name %><br/>
     Title - <%= review.title %><br/>
     Rating - <%= review.rating %><br/>
-    Content - <%= review.content %><br/>
+    Content - <%= review.content %><br/></p>
+    <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
     <%= link_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit" %>
   </section>
-<% end %>
+  <% end %>

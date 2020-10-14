@@ -213,18 +213,46 @@ describe 'As a visitor' do
       expect(page).to have_content(review3.content)
       expect(page).to have_xpath("//img[contains(@src,'#{review3.picture}')]")
       expect(page).to have_content(review3.user_name)
+      expect(page).to_not have_content(review2.title)
+      expect(page).to_not have_content(review2.content)
+      expect(page).to_not have_xpath("//img[contains(@src,'#{review2.picture}')]")
+      expect(page).to_not have_content(review4.user_name)
+      expect(page).to_not have_content(review4.title)
+      expect(page).to_not have_content(review4.content)
+      expect(page).to_not have_xpath("//img[contains(@src,'#{review4.picture}')]")
+      expect(page).to_not have_content(review4.user_name)
+    end
+  end
+end
 
-      visit "/shelters/#{shelter2.id}"
-      expect(page).to have_content(review2.title)
-      # expect(page).to have_content(review2.rating.to_s)
-      expect(page).to have_content(review2.content)
-      expect(page).to have_xpath("//img[contains(@src,'#{review2.picture}')]")
-      expect(page).to have_content(review4.user_name)
-      expect(page).to have_content(review4.title)
-      expect(page).to have_content(review4.rating.to_s)
-      expect(page).to have_content(review4.content)
-      expect(page).to have_xpath("//img[contains(@src,'#{review4.picture}')]")
-      expect(page).to have_content(review4.user_name)
+describe 'As a visitor' do
+  describe "When I visit a shelter's show page" do
+    it 'should see a link to add a new review' do
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+      user1 = User.create!(name: 'Bob',
+                           street_address: '1234 Test Dr',
+                           city: 'Denver',
+                           state: 'Colorado',
+                           zip: '12345')
+      review1 = Review.create!(title: 'My Rating',
+                               rating: 3,
+                               content: 'The place is not bad.',
+                               picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
+                               shelter_id: shelter1.id,
+                               user_id: user1.id,
+                               user_name: user1.name)
+      visit "/shelters/#{shelter1.id}"
+
+      expect(page).to have_link('New Review')
+
+      visit "/shelters/#{shelter1.id}"
+      click_link 'New Review'
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}/reviews/new")
     end
   end
 end

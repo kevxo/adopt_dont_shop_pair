@@ -22,3 +22,40 @@ describe "When I have clicked the button 'New Shelter' " do
     end
   end
 end
+
+describe "When I click 'New Review'" do
+  it 'should take me to a page where I need to enter review info' do
+    shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                               address: '1234 spoon.st',
+                               city: 'Tampa',
+                               state: 'Florida',
+                               zip: '34638')
+    user1 = User.create!(name: 'Bob',
+                         street_address: '1234 Test Dr',
+                         city: 'Denver',
+                         state: 'Colorado',
+                         zip: '12345')
+    review1 = Review.create!(title: 'My Rating',
+                             rating: 3,
+                             content: 'The place is not bad.',
+                             picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
+                             shelter_id: shelter1.id,
+                             user_id: user1.id,
+                             user_name: user1.name)
+    visit "/shelters/#{shelter1.id}/reviews/new"
+
+    fill_in 'review[title]',	with: 'My Opinion'
+    fill_in 'review[user_name]',	with: user1.name
+    fill_in 'review[rating]',	with: 4
+    fill_in 'review[content]',	with: 'The place is great. Customer service is awesome.'
+    fill_in 'review[picture]',	with: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
+
+    click_button 'Submit Review'
+    expect(page).to have_content('My Opinion')
+    expect(page).to have_content(user1.name)
+    expect(page).to have_content(4)
+    expect(page).to have_content('The place is great. Customer service is awesome.')
+    expect(page).to have_xpath("//img[contains(@src,'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG')]")
+    expect(current_path).to eq("/shelters/#{shelter1.id}")
+  end
+end
