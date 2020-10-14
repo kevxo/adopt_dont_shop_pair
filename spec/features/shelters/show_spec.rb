@@ -149,3 +149,82 @@ describe 'As a visitor' do
   end
 
 end
+
+describe 'As a visitor' do
+  describe 'When I visit a shelters show page' do
+    it 'should show a list of reviews for that shelter' do
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+      shelter2 = Shelter.create!(name: 'Pets for You',
+                                 address: '1234 test.st',
+                                 city: 'Miami',
+                                 state: 'Florida',
+                                 zip: '34638')
+      user1 = User.create!(name: 'Bob',
+                           street_address: '1234 Test Dr',
+                           city: 'Denver',
+                           state: 'Colorado',
+                           zip: '12345')
+      user2 = User.create!(name: 'Tony',
+                           street_address: '1234 Review Dr',
+                           city: 'Denver',
+                           state: 'Colorado',
+                           zip: '19345')
+      review1 = Review.create!(title: 'My Rating',
+                               rating: 3,
+                               content: 'The place is not bad.',
+                               picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
+                               shelter_id: shelter1.id,
+                               user_id: user1.id,
+                               name: user1.name)
+      review2 = Review.create!(title: 'My thoughts',
+                               rating: 4,
+                               content: 'Great place for pets',
+                               picture: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Tony_Romo_2015.jpg',
+                               shelter_id: shelter2.id,
+                               user_id: user2.id,
+                               name: user2.name)
+      review3 = Review.create!(title: 'My Rating',
+                               rating: 3,
+                               content: 'Its okay. Cute pets they have.',
+                               picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
+                               shelter_id: shelter1.id,
+                               user_id: user1.id,
+                               name: user1.name)
+      review4 = Review.create!(title: 'My Concerns',
+                               rating: 2,
+                               content: 'This place is not great',
+                               picture: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Tony_Romo_2015.jpg',
+                               shelter_id: shelter2.id,
+                               user_id: user2.id,
+                               name: user2.name)
+
+      visit "/shelters/#{shelter1.id}"
+      expect(page).to have_content(review1.title)
+      expect(page).to have_content(review1.rating.to_s)
+      expect(page).to have_content(review1.content)
+      expect(page).to have_xpath("//img[contains(@src,'#{review1.picture}')]")
+      expect(page).to have_content(review3.name)
+      expect(page).to have_content(review3.title)
+      expect(page).to have_content(review3.rating.to_s)
+      expect(page).to have_content(review3.content)
+      expect(page).to have_xpath("//img[contains(@src,'#{review3.picture}')]")
+      expect(page).to have_content(review3.name)
+
+      visit "/shelters/#{shelter2.id}"
+      expect(page).to have_content(review2.title)
+      # expect(page).to have_content(review2.rating.to_s)
+      expect(page).to have_content(review2.content)
+      expect(page).to have_xpath("//img[contains(@src,'#{review2.picture}')]")
+      expect(page).to have_content(review4.name)
+      expect(page).to have_content(review4.title)
+      expect(page).to have_content(review4.rating.to_s)
+      expect(page).to have_content(review4.content)
+      expect(page).to have_xpath("//img[contains(@src,'#{review4.picture}')]")
+      expect(page).to have_content(review4.name)
+    end
+  end
+end
