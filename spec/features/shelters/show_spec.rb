@@ -216,28 +216,14 @@ describe 'As a visitor' do
       expect(page).to_not have_content(review2.title)
       expect(page).to_not have_content(review2.content)
       expect(page).to_not have_xpath("//img[contains(@src,'#{review2.picture}')]")
-
-      visit "/shelters/#{shelter2.id}"
-      # expect(page).to have_content(review2.rating.to_s)
-      expect(page).to have_content(review4.user_name)
-      expect(page).to have_content(review4.title)
-      expect(page).to have_content(review4.rating.to_s)
-      expect(page).to have_content(review4.content)
-      expect(page).to have_xpath("//img[contains(@src,'#{review4.picture}')]")
-      expect(page).to have_content(review4.user_name)
+      expect(page).to_not have_content(review4.user_name)
+      expect(page).to_not have_content(review4.title)
+      expect(page).to_not have_content(review4.content)
+      expect(page).to_not have_xpath("//img[contains(@src,'#{review4.picture}')]")
+      expect(page).to_not have_content(review4.user_name)
     end
   end
 end
-
-# When I click on this link, I am taken to a new review path
-# On this new page, I see a form where I must enter:
-# - title
-# - rating
-# - content
-# - the name of a user that exists in the database
-# I also see a field where I can enter an optional image (web address)
-# When the form is submitted, I should return to that shelter's show page
-# and I can see my new review
 
 describe 'As a visitor' do
   describe "When I visit a shelter's show page" do
