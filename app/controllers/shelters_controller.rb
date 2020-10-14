@@ -3,9 +3,7 @@ class SheltersController < ApplicationController
     @shelters = Shelter.all
   end
 
-  def new
-
-  end
+  def new; end
 
   def create
     shelter = Shelter.new({
@@ -52,5 +50,26 @@ class SheltersController < ApplicationController
   def pet_index
     shelter_id = params[:id]
     @pets = Pet.where("shelter_id  = #{shelter_id}")
+  end
+
+  def review_new
+    @shelter_id = params[:id]
+  end
+
+  def review_create
+    review = Review.new({
+                          name: params[:review][:name],
+                          title: params[:review][:title],
+                          picture: params[:review][:picture],
+                          content: params[:review][:content],
+                          rating: params[:review][:rating],
+                          user_id: params[:review][:user_id],
+                          shelter_id: params[:id]
+                        })
+
+    binding.pry
+
+    review.save!
+    redirect_to "/shelters/#{params[:id]}"
   end
 end

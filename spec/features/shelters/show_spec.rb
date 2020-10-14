@@ -156,3 +156,45 @@ describe 'As a visitor' do
     end
   end
 end
+ß
+# When I click on this link, I am taken to a new review path
+# On this new page, I see a form where I must enter:
+# - title
+# - rating
+# - content
+# - the name of a user that exists in the database
+# I also see a field where I can enter an optional image (web address)
+# When the form is submitted, I should return to that shelter's show page
+# and I can see my new review
+
+describe 'As a visitor' do
+  describe "When I visit a shelter's show page" do
+    it 'should see a link to add a new review' do
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+      user1 = User.create!(name: 'Bob',
+                           street_address: '1234 Test Dr',
+                           city: 'Denver',
+                           state: 'Colorado',
+                           zip: '12345')
+      review1 = Review.create!(title: 'My Rating',
+                               rating: 3,
+                               content: 'The place is not bad.',
+                               picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
+                               shelter_id: shelter1.id,
+                               user_id: user1.id,
+                               name: user1.name)
+      visit "/shelters/#{shelter1.id}"
+
+      expect(page).to have_link('New Review')
+
+      visit "/shelters/#{shelter1.id}"
+      click_link 'New Review'
+
+      expect(current_path).to eq("/shelters/#{shelter1.id}/reviews/new")
+    end
+  end
+end
