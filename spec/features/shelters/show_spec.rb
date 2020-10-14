@@ -104,12 +104,12 @@ describe 'As a visitor' do
       review_2.user_id = user_2.id
       review_2.save!
 
-      # visit "/shelters/#{shelter_1.id}"
-      #
-      # within ("#review-#{review_1.id}") do
-      #   expect(page).to have_link("edit review")
-      #   click_on("edit review")
-      # end
+      visit "/shelters/#{shelter_1.id}"
+
+      within ("#review-#{review_1.id}") do
+        expect(page).to have_link("edit review")
+        click_on("edit review")
+      end
 
       visit "/shelters/#{shelter_1.id}/reviews/#{review_1.id}/edit"
 
