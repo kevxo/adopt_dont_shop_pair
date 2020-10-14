@@ -213,12 +213,12 @@ describe 'As a visitor' do
       expect(page).to have_content(review3.content)
       expect(page).to have_xpath("//img[contains(@src,'#{review3.picture}')]")
       expect(page).to have_content(review3.user_name)
+      expect(page).to_not have_content(review2.title)
+      expect(page).to_not have_content(review2.content)
+      expect(page).to_not have_xpath("//img[contains(@src,'#{review2.picture}')]")
 
       visit "/shelters/#{shelter2.id}"
-      expect(page).to have_content(review2.title)
       # expect(page).to have_content(review2.rating.to_s)
-      expect(page).to have_content(review2.content)
-      expect(page).to have_xpath("//img[contains(@src,'#{review2.picture}')]")
       expect(page).to have_content(review4.user_name)
       expect(page).to have_content(review4.title)
       expect(page).to have_content(review4.rating.to_s)
@@ -228,7 +228,7 @@ describe 'As a visitor' do
     end
   end
 end
-ß
+
 # When I click on this link, I am taken to a new review path
 # On this new page, I see a form where I must enter:
 # - title
@@ -258,7 +258,7 @@ describe 'As a visitor' do
                                picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
                                shelter_id: shelter1.id,
                                user_id: user1.id,
-                               name: user1.name)
+                               user_name: user1.name)
       visit "/shelters/#{shelter1.id}"
 
       expect(page).to have_link('New Review')
