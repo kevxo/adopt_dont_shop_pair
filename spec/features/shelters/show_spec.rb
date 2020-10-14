@@ -98,13 +98,15 @@ describe 'As a visitor' do
                            zip: '19345')
       review1 = Review.create!(title: 'My Rating',
                                rating: 3,
-                               content: 'review',
+                               content: 'The place is not bad.',
+                               picture: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG",
                                shelter_id: shelter1.id,
                                user_id: user1.id,
                                name: user1.name)
       review2 = Review.create!(title: 'My thoughts',
                                rating: 4,
                                content: 'Great place for pets',
+                               picture: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Tony_Romo_2015.jpg",
                                shelter_id: shelter1.id,
                                user_id: user2.id,
                                name: user2.name)
@@ -113,12 +115,12 @@ describe 'As a visitor' do
       expect(page).to have_content(review1.title)
       expect(page).to have_content(review1.rating.to_s)
       expect(page).to have_content(review1.content)
-      expect(page).to_not have_xpath("//img[contains(@src,'#{review1.picture}')]")
+      expect(page).to have_xpath("//img[contains(@src,'#{review1.picture}')]")
       expect(page).to have_content(review1.name)
       expect(page).to have_content(review2.title)
       expect(page).to have_content(review2.rating.to_s)
       expect(page).to have_content(review2.content)
-      expect(page).to_not have_xpath("//img[contains(@src,'#{review1.picture}')]")
+      expect(page).to have_xpath("//img[contains(@src,'#{review2.picture}')]")
       expect(page).to have_content(review2.name)
     end
   end
