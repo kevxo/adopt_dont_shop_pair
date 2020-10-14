@@ -55,16 +55,16 @@ user_3 = User.create!(name: 'Holly Baker',
 
 review_1 = shelter_2.reviews.new(title: "Colorado Cares is the best", rating: 5,
           content: "I absolutely love this shelter. I have found the best friends a man could have!",
-          name: "Bob")
+          user_name: "Bob")
 review_1.user_id = user_1.id
 review_1.save!
 
 review_2 = shelter_1.reviews.new(title: "Rocky Mountain High, more like Rocky Mountain bye", rating: 1,
-                                content: "All I can say is nope", name: "Bob")
+                                content: "All I can say is nope", user_name: "Bob")
 review_2.user_id = user_1.id
 review_2.save!
 
 review_3 = shelter_2.reviews.new(title: "Colorado Cares, not my style", rating: 3,
-          content: "Too many dalmations!", name: "Jeff")
+          content: "Too many dalmations!", user_name: "Jeff")
 review_3.user_id = user_2.id
 review_3.save!
