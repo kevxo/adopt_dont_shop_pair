@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'As a visitor' do
   describe "When I visit '/shelters/:id' " do
-    it "should display the shelter's id and information" do
+    it "I should display the shelter's id and information" do
       shelter1 = Shelter.create(name: 'Dogs and Cats',
                                 address: '1234 spoon.st',
                                 city: 'Tampa',
@@ -18,12 +18,8 @@ describe 'As a visitor' do
       expect(page).to have_content(shelter1.state.to_s)
       expect(page).to have_content(shelter1.zip.to_s)
     end
-  end
-end
 
-describe 'As a visitor' do
-  describe 'When I visit a shelter show page' do
-    it "should see a link 'Update shelter'" do
+    it "I should see a link 'Update shelter'" do
       shelter1 = Shelter.create(name: 'Dogs and Cats',
                                 address: '1234 spoon.st',
                                 city: 'Tampa',
@@ -38,12 +34,8 @@ describe 'As a visitor' do
 
       expect(current_path).to eq("/shelters/#{shelter1.id}/edit")
     end
-  end
-end
 
-describe 'As a visitor' do
-  describe 'When I visit a shelter show page' do
-    it 'should see a button to delete the shelter' do
+    it 'I should see a button to delete the shelter' do
       shelter1 = Shelter.create(name: 'Dogs and Cats',
                                 address: '1234 spoon.st',
                                 city: 'Tampa',
@@ -54,12 +46,8 @@ describe 'As a visitor' do
 
       expect(page).to have_button('Delete Shelter')
     end
-  end
-end
 
-describe 'As a visitor' do
-  describe 'When I visit the shelter show page' do
-    it 'should see a link that takes me to the Shelters Pet Index page' do
+    it 'I should see a link that takes me to the Shelters Pet Index page' do
       shelter1 = Shelter.create(name: 'Dogs and Cats',
                                 address: '1234 spoon.st',
                                 city: 'Tampa',
@@ -75,9 +63,7 @@ describe 'As a visitor' do
 
       expect(current_path).to eq("/shelters/#{shelter1.id}/pets")
     end
-  end
 
-  describe "when I visit shelter show page" do
     it "I can edit each review listed" do
       shelter_1 = Shelter.create!(name: "Colorado Cares", address: "867 magnolia st",
                                   city: "Lakewood", state: "CO", zip: "80022")
@@ -146,13 +132,8 @@ describe 'As a visitor' do
       expect(page).to have_content(review_2.content)
 
     end
-  end
 
-end
-
-describe 'As a visitor' do
-  describe 'When I visit a shelters show page' do
-    it 'should show a list of reviews for that shelter' do
+    it 'I should show a list of reviews for that shelter' do
       shelter1 = Shelter.create!(name: 'Dogs and Cats',
                                  address: '1234 spoon.st',
                                  city: 'Tampa',
@@ -222,12 +203,8 @@ describe 'As a visitor' do
       expect(page).to_not have_xpath("//img[contains(@src,'#{review4.picture}')]")
       expect(page).to_not have_content(review4.user_name)
     end
-  end
-end
 
-describe 'As a visitor' do
-  describe "When I visit a shelter's show page" do
-    it 'should see a link to add a new review' do
+    it 'I should see a link to add a new review' do
       shelter1 = Shelter.create!(name: 'Dogs and Cats',
                                  address: '1234 spoon.st',
                                  city: 'Tampa',
@@ -253,6 +230,58 @@ describe 'As a visitor' do
       click_link 'New Review'
 
       expect(current_path).to eq("/shelters/#{shelter1.id}/reviews/new")
+    end
+
+    it "I can delete the each review" do
+      shelter_1 = Shelter.create!(name: "Colorado Cares", address: "867 magnolia st",
+                                  city: "Lakewood", state: "CO", zip: "80022")
+
+      user_1 = User.create!(name: 'Holly Baker',
+                          street_address: '4443 fountain ave',
+                          city: 'Lakewood',
+                          state: 'CO',
+                          zip: '80009')
+      user_2  = User.create!(name: 'Jeff Daniels',
+                          street_address: '455 west dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '87709')
+
+      review_1 = shelter_1.reviews.new(title: "Colorado Cares is the best", rating: 5,
+                content: "I absolutely love this shelter. I have found the best friend a woman could have!",
+                user_name: "Holly", picture: "https://tilasto.info/arkkitehti/wp-content/uploads/2019/02/kirkkokivi1.jpg")
+      review_1.user_id = user_1.id
+      review_1.save!
+
+      review_2 = shelter_1.reviews.new(title: "Ehhhhh", rating: 1,
+                content: "All I can say is nope", user_name: "Jeff", picture: "https://cdn.hpm.io/wp-content/uploads/2019/06/25143552/Dogs-1000x750.jpg")
+      review_2.user_id = user_2.id
+      review_2.save!
+
+      visit "/shelters/#{shelter_1.id}"
+
+
+
+      within ("#review-#{review_1.id}") do
+        expect(page).to have_content("#{review_1.user_name}")
+        expect(page).to have_content("#{review_1.title}")
+        expect(page).to have_xpath("//img[contains(@src,'#{review_1.picture}')]")
+        expect(page).to have_content("#{review_1.content}")
+        expect(page).to have_content("#{review_1.rating}")
+        click_link("delete review")
+      end
+
+      expect(current_path).to eq("/shelters/#{shelter_1.id}")
+      expect(page).to_not have_content("#{review_1.user_name}")
+      expect(page).to_not have_content("#{review_1.title}")
+      expect(page).to_not have_xpath("//img[contains(@src,'#{review_1.picture}')]")
+      expect(page).to_not have_content("#{review_1.content}")
+      expect(page).to_not have_content("#{review_1.rating}")
+      expect(page).to have_content("#{review_2.user_name}")
+      expect(page).to have_content("#{review_2.title}")
+      expect(page).to have_xpath("//img[contains(@src,'#{review_2.picture}')]")
+      expect(page).to have_content("#{review_2.content}")
+      expect(page).to have_content("#{review_2.rating}")
     end
   end
 end
