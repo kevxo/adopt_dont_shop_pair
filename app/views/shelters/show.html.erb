@@ -13,3 +13,12 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="Delete Shelter"/>
   </form>
+
+  <h1>Reviews</h1>
+  <p><% @reviews.each do |review| %>
+    Title - <%= review.title %><br/>
+    Rating - <%= review.rating %><br/>
+    Content - <%= review.content %><br/>
+    Picture - <%= review.picture %><br/>
+    User Name - <%= review.name %></p><br/>
+  <% end %>
