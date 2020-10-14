@@ -9,18 +9,23 @@
 <a href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a></p>
 
 <form class="delete_index" action="/shelters/<%= @shelter.id %>" method="POST">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="Delete Shelter"/>
-  </form>
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete Shelter"/>
+</form>
 
-  <h1>Reviews</h1>
-  <p><% @reviews.each do |review| %>
-    <img src="<%= review.picture %>" width="100" height="100"><br/>
-    Name - <%= review.name %><br/>
+<h1>Reviews</h1>
+<% @reviews.each do |review| %>
+  <section id="review-<%= review.id %>">
+    <img src="<%= review.picture %>" width="100px"><br/>
+    Name - <%= review.user_name %><br/>
     Title - <%= review.title %><br/>
     Rating - <%= review.rating %><br/>
     Content - <%= review.content %><br/></p>
   <% end %>
 
  <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
+    Content - <%= review.content %><br/>
+    <%= link_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit" %>
+  </section>
+<% end %>

@@ -41,11 +41,11 @@ describe "When I click 'New Review'" do
                              picture: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG',
                              shelter_id: shelter1.id,
                              user_id: user1.id,
-                             name: user1.name)
+                             user_name: user1.name)
     visit "/shelters/#{shelter1.id}/reviews/new"
 
     fill_in 'review[title]',	with: 'My opinion'
-    fill_in 'review[name]',	with: user1.name
+    fill_in 'review[user_name]',	with: user1.name
     fill_in 'review[rating]',	with: 4
     fill_in 'review[content]',	with: 'The place is great. Customer service is awesome.'
     fill_in 'review[picture]',	with: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
