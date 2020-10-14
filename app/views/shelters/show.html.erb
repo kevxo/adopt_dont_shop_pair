@@ -22,10 +22,8 @@
     Title - <%= review.title %><br/>
     Rating - <%= review.rating %><br/>
     Content - <%= review.content %><br/></p>
-  <% end %>
 
  <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
-    Content - <%= review.content %><br/>
     <%= link_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit" %>
   </section>
-<% end %>
+  <% end %>
