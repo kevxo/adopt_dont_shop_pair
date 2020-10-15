@@ -6,7 +6,7 @@ class ReviewsController < ApplicationController
   def create
     user_id = User.find_by(name: params[:review][:user_name])
 
-    if user_id 
+    if user_id
       review = Review.new({
         user_name: params[:review][:user_name],
         title: params[:review][:title],
@@ -35,8 +35,17 @@ class ReviewsController < ApplicationController
 
   def update
     review = Review.find(params[:review_id])
-    review.update!(review_params)
-    redirect_to "/shelters/#{params[:shelter_id]}"
+    user = User.find_by(name: params[:user_name])
+    updated_review = review.update(review_params)
+    if user && updated_review
+      redirect_to "/shelters/#{params[:shelter_id]}"
+    elsif user
+      flash[:notice] = "Review not updated: Need title, content, and rating."
+      redirect_to "/shelters/#{params[:shelter_id]}/reviews/#{params[:review_id]}/edit"
+    else
+      flash[:notice] = "Review not updated: User doesn't exist in database."
+      redirect_to "/shelters/#{params[:shelter_id]}/reviews/#{params[:review_id]}/edit"
+    end
   end
 
   def destroy
