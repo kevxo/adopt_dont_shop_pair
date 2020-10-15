@@ -18,12 +18,12 @@
 <% @reviews.each do |review| %>
   <section id="review-<%= review.id %>">
     <img src="<%= review.picture %>" width="100px"><br/>
-    Name - <%= review.user_name %><br/>
-    Title - <%= review.title %><br/>
-    Rating - <%= review.rating %><br/>
-    Content - <%= review.content %><br/></p>
+    <p>Name - <%= review.user_name %></p>
+    <p>Title - <%= review.title %></p>
+    <p>Rating - <%= review.rating %></p>
+    <p>Content - <%= review.content %></p><br>
     <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
     <%= link_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit" %>
     <%= link_to "delete review", "/shelters/#{review.shelter_id}/reviews/#{review.id}", method: :delete %>
   </section>
-  <% end %>
+<% end %>

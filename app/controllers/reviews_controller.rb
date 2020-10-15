@@ -4,20 +4,29 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    user_id = User.find_by(name: params[:review][:user_name]).id
-    review = Review.new({
-                          user_name: params[:review][:user_name],
-                          title: params[:review][:title],
-                          picture: params[:review][:picture],
-                          content: params[:review][:content],
-                          rating: params[:review][:rating],
-                          user_id: user_id,
-                          shelter_id: params[:id]
-                        })
+    user_id = User.find_by(name: params[:review][:user_name])
 
-
-    review.save!
-    redirect_to "/shelters/#{params[:id]}"
+    if user_id 
+      review = Review.new({
+        user_name: params[:review][:user_name],
+        title: params[:review][:title],
+        picture: params[:review][:picture],
+        content: params[:review][:content],
+        rating: params[:review][:rating],
+        user_id: user_id.id,
+        shelter_id: params[:id]
+      })
+      if review.save
+        review.save
+        redirect_to "/shelters/#{params[:id]}"
+      else
+        flash[:notice] = 'Review not created: Need title, content, and rating.'
+        redirect_to "/shelters/#{params[:id]}/reviews/new"
+      end
+    else
+      flash[:notice] = "Review not created: User couldn't be found."
+      redirect_to "/shelters/#{params[:id]}/reviews/new"
+    end
   end
 
   def edit
