@@ -1,9 +1,8 @@
 require 'rails_helper'
 
-describe Shelter, type: :model do
+RSpec.describe User, type: :model do
   describe 'relationships' do
-    it { should have_many :pets }
-    it { should have_many :reviews }
+    it { should have_many :reviews}
   end
 
   describe 'validations' do
