@@ -58,4 +58,34 @@ describe "When I click 'New Review'" do
     expect(page).to have_xpath("//img[contains(@src,'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG')]")
     expect(current_path).to eq("/shelters/#{shelter1.id}")
   end
+
+  it 'I can not create a review without title, rating, and content' do
+    shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                               address: '1234 spoon.st',
+                               city: 'Tampa',
+                               state: 'Florida',
+                               zip: '34638')
+    user1 = User.create!(name: 'Bob',
+                         street_address: '1234 Test Dr',
+                         city: 'Denver',
+                         state: 'Colorado',
+                         zip: '12345')
+    title = 'My Rating'
+    rating = 3
+    content = 'The place is not bad.'
+    picture = 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
+    shelter_id = shelter1.id
+    user_id = user1.id
+    user_name = user1.name
+    visit "/shelters/#{shelter1.id}/reviews/new"
+    fill_in 'review[user_name]',	with: user1.name
+    fill_in 'review[content]',	with: content
+    fill_in 'review[picture]',	with: picture
+
+
+    click_button 'Submit Review'
+
+    expect(page).to have_content("Review not created: Need title, content, and rating.")
+    expect(page).to have_button('Submit Review')
+  end
 end
