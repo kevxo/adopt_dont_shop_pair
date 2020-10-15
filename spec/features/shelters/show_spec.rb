@@ -112,7 +112,7 @@ describe 'As a visitor' do
       expect(find_field(:user_name).value).to_not eq(review_2.user_name)
 
       new_rating = 4
-      new_name = "Harold"
+      new_name = "Jeff Daniels"
 
       fill_in :rating, with: new_rating
       fill_in :user_name, with: new_name
