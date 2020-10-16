@@ -124,8 +124,48 @@ describe 'As a visitor' do
 
       visit "/users/#{user.id}"
 
-      within "#average-rating" do
+      within '#average-rating' do
         expect(page).to have_content('Average User Rating: 3')
+      end
+    end
+
+    it 'should display review with best rating and worst rating' do
+      shelter_1 = Shelter.create!(name: 'Colorado Cares', address: '867 magnolia st',
+                                  city: 'Lakewood', state: 'CO', zip: '80022')
+
+      user = User.create!(name: 'Bob Woodword',
+                          street_address: '1234 Test Dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '12345')
+      review_1 = shelter_1.reviews.new(title: 'Colorado Cares is the best', rating: 5,
+                                       content: 'I absolutely love this shelter. I have found the best friends a man could have!',
+                                       user_name: user.name)
+      review_1.user_id = user.id
+      review_1.save!
+
+      review_2 = shelter_1.reviews.new(title: 'Mile High, more like Mile bye', rating: 1,
+                                       content: 'All I can say is nope', user_name: user.name)
+      review_2.user_id = user.id
+      review_2.save!
+
+      review_3 = shelter_1.reviews.new(title: 'Mile High, not my style', rating: 3,
+                                       content: 'Too many dalmations!', user_name: user.name)
+      review_3.user_id = user.id
+      review_3.save!
+
+      visit "/users/#{user.id}"
+
+      within "#best-rating" do
+        expect(page).to have_content(review_1.title)
+        expect(page).to have_content(review_1.rating)
+        expect(page).to have_content(review_1.content)
+      end
+
+      within "#worst-rating" do
+        expect(page).to have_content(review_2.title)
+        expect(page).to have_content(review_2.rating)
+        expect(page).to have_content(review_2.content)
       end
     end
   end
