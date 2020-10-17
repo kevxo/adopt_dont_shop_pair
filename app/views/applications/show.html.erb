@@ -3,24 +3,15 @@
   <p><b>Application Status:</b> <%= @application.application_status %></p>
 </section><br>
 
-<% if @application.application_status == "In Progress" && @application.application_pet_count > 0 %>
-  <section id="application-<%= @application.id %>-submission">
-    <%= form_tag "/applications/#{@application.id}", method: :patch do %>
-      <%= label_tag "Explain why you would make a good owner for this/these pet(s)." %>
-      <%= text_field_tag :description %>
-      <%= submit_tag "Submit Application" %>
-    <% end %>
-  </section>
-<% end %>
 
 <section class="application_info">
-  <h3><%= @application.user_name %></h3>
+  <h3>Applicant: <%= @application.user_name %></h3>
   <p><%= @application.address %>  </p>
   <p><%= @application.description %></p>
   <h4>Application for:</h4>
   <section id="application-pets">
     <ul>
-      <% @application.pets.each do |pet| %>
+      <% @application.pets.uniq.each do |pet| %>
       <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
       <% end %>
     </ul>
@@ -45,5 +36,20 @@
       </ol>
     </section>
   <% end %>
-</section>
+</section><br>
+<% end %>
+
+
+<% if @application.application_status == "In Progress" && @application.application_pet_count > 0 %>
+  <section id="application-<%= @application.id %>-submission">
+    <h3>Application Submission</h3>
+    <% flash.each do |type, message| %>
+      <p><b><%= message %></b></p>
+    <% end %>
+    <%= form_tag "/applications/#{@application.id}", method: :patch do %>
+      <%= label_tag "Explain why you would make a good owner for this/these pet(s)." %>
+      <%= text_field_tag :description %>
+      <%= submit_tag "Submit Application" %>
+    <% end %>
+  </section>
 <% end %>

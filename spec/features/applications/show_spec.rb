@@ -173,7 +173,7 @@ RSpec.describe "As a visitor" do
       end
 
       describe "if I have added one or more pets to my application" do
-        it "I can enter an application description and submit my application" do
+        it "I can enter a (mandatory) application description and submit my application" do
           shelter_1 = Shelter.create!(name: "Mile High Adoptive Services", address: "500 w first st", city: "Centennial", state: "CO", zip: "80022")
           shelter_2 = Shelter.create(name: 'Pets are Us',
                                     address: '1894 Lincoln.st',
@@ -210,6 +210,11 @@ RSpec.describe "As a visitor" do
           within "#application-#{application_1.id}-submission" do
             expect(page).to have_text("Explain why you would make a good owner for this/these pet(s).")
             expect(find_field("description").value).to eq(nil)
+            click_button("Submit Application")
+          end
+          save_and_open_page
+          within "#application-#{application_1.id}-submission" do
+            expect(page).to have_content("Application not submitted: Please explain why you would be a good pet owner.")
             fill_in "description", with: description
             click_button("Submit Application")
           end
@@ -226,7 +231,7 @@ RSpec.describe "As a visitor" do
           end
           save_and_open_page
           expect(page).to_not have_css("#pet-search")
-          expect(page).to_not have_css("#application-#{application_1.id}-submission")
+          expect(page).to_not have_css("application-#{application_1.id}-submission")
         end
       end
 
