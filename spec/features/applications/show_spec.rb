@@ -67,10 +67,10 @@ RSpec.describe "As a visitor" do
                           sex: "male",
                           description: "Tony is a wild cracker at times, but is able to calm down and cuddle when needed.")
         pet_2 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/german-shorthaired-pointer-dogs-and-puppies/german-shorthaired-pointer-dogs-puppies-3.jpg",
-                                      name: "Isabell",
+                                      name: "Ms. Snowballs",
                                       approximate_age: "5",
                                       sex: "female",
-                                      description: "Isabell is my favorite and I don't want her to go...but then again, I do!")
+                                      description: "Ms. Snowballs is my favorite and I don't want her to go...but then again, I do!")
         pet_3 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-2.jpg",
                                       name: "Snowball",
                                       approximate_age: "1",
@@ -88,7 +88,6 @@ RSpec.describe "As a visitor" do
                                           pet_names: "#{pet_1.name}, #{pet_2.name}", user_id: user_1.id)
 
         PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
-        PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id)
 
         visit "/applications/#{application_1.id}"
 
@@ -99,12 +98,18 @@ RSpec.describe "As a visitor" do
         within "#pet-search" do
           expect(page).to have_content("Search for pets by name")
           expect(find_field(:pet_search).value).to eq(nil)
-          fill_in "pet_search", with: pet_3.name
+          fill_in "pet_search", with: "#{pet_3.name}"
           click_button("Search")
         end
 
         within "#pet-search-result" do
           expect(page).to have_content(pet_3.name)
+        end
+      end
+
+      describe "after I search for a pet" do
+        it "I add the pet to my pet adoption list" do
+
         end
       end
 
