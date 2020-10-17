@@ -1,0 +1,14 @@
+<br>
+
+  <h1>Application Information</h1>
+<%= form_tag "/applications" do %>
+  <%= label_tag :user_name %><br>
+  <%= text_field_tag :user_name %><br>
+  <%= label_tag :address %><br>
+  <%= text_field_tag :address %><br>
+  <%= label_tag :description %><br>
+  <%= text_field_tag :description %><br>
+  <%= label_tag :pet_names %><br>
+  <%= text_field_tag :pet_names %><br>
+  <%= submit_tag "Submit" %>
+<% end %>

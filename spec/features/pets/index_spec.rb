@@ -208,11 +208,6 @@ describe 'As a visitor ' do
                                  city: 'Tampa',
                                  state: 'Florida',
                                  zip: '34638')
-      user = User.create!(name: 'Bob',
-                          street_address: '1234 Test Dr',
-                          city: 'Denver',
-                          state: 'Colorado',
-                          zip: '12345')
       visit "/shelters/#{shelter1.id}/pets"
 
       expect(page).to have_link('Start an Application')

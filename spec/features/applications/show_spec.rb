@@ -35,7 +35,6 @@ RSpec.describe "As a visitor" do
       PetApplication.create!(pet_id: pet2.id, application_id: application_1.id)
 
       visit "/applications/#{application_1.id}"
-      save_and_open_page
       expect(page).to have_content(application_1.user_name)
       expect(page).to have_content(application_1.address)
       expect(page).to have_content(application_1.description)
