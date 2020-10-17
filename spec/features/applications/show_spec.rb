@@ -122,10 +122,56 @@ RSpec.describe "As a visitor" do
 
       describe "after I search for a pet" do
         it "I can add the pet to my pet adoption list" do
+          shelter_1 = Shelter.create!(name: "Mile High Adoptive Services", address: "500 w first st", city: "Centennial", state: "CO", zip: "80022")
 
+          pet_1 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg",
+                            name: "Tony",
+                            approximate_age: "2",
+                            sex: "male",
+                            description: "Tony is a wild cracker at times, but is able to calm down and cuddle when needed.")
+          pet_2 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/german-shorthaired-pointer-dogs-and-puppies/german-shorthaired-pointer-dogs-puppies-3.jpg",
+                                        name: "Ms. Snowballs",
+                                        approximate_age: "5",
+                                        sex: "female",
+                                        description: "Ms. Snowballs is my favorite and I don't want her to go...but then again, I do!")
+          pet_3 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-2.jpg",
+                                        name: "Regina",
+                                        approximate_age: "1",
+                                        sex: "female",
+                                        description: "Just the cutest.")
+
+          user_1 = User.create!(name: 'Holly Baker',
+                              street_address: '4443 fountain ave',
+                              city: 'Lakewood',
+                              state: 'CO',
+                              zip: '80009')
+
+          application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
+                                            description: "I am an experienced pet owner for 5 years and I just love this pet!",
+                                            pet_names: "#{pet_1.name}, #{pet_2.name}", user_id: user_1.id)
+
+          PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
+          PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id)
+
+          visit "/applications/#{application_1.id}"
+
+          within "#pet-search" do
+            fill_in "pet_search", with: "#{pet_3.name}"
+            click_button("Search")
+          end
+
+          within "#pet-#{pet_3.id}" do
+            click_button("Adopt this Pet")
+          end
+
+          expect(current_path).to eq("/applications/#{application_1.id}")
+
+          within "#application-pets" do
+            expect(page).to have_link(pet_3.name)
+          end
         end
       end
-
+      
     end
   end
 end
