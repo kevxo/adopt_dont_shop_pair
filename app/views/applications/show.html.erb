@@ -4,16 +4,18 @@
 </section><br>
 
 
-<section>
+<section class="application_info">
   <h3><%= @application.user_name %></h3>
   <p><%= @application.address %>  </p>
   <p><%= @application.description %></p>
   <h4>Application for:</h4>
-  <ul>
-  <% @application.pets.each do |pet| %>
-    <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
-  <% end %>
-</ul>
+  <section id="application-pets">
+    <ul>
+      <% @application.pets.each do |pet| %>
+      <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
+      <% end %>
+    </ul>
+  </section>
 </section><br>
 
 <section id="pet-search">
@@ -28,7 +30,7 @@
     <section id="pet-search-results">
       <ol>
         <% @pet_search_result.each do |pet| %>
-          <li id="pet-<%= pet.id %>"><%= pet.name %></li>
+          <li id="pet-<%= pet.id %>"><%= pet.name %><%= button_to "Adopt this Pet", "/applications/#{@application.id}?pet_id=#{pet.id}&&pet_name=#{pet.name}", method: :patch %></li>
         <% end %>
       </ol>
     </section>
