@@ -9,7 +9,7 @@ class Application < ApplicationRecord
     self.application_status ||= "In Progress"
   end
 
-  def pet_count
+  def application_pet_count
     self.pets.count
   end
 

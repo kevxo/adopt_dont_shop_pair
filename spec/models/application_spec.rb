@@ -64,11 +64,11 @@ RSpec.describe Application, type: :model do
 
       PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
 
-      expect(application_1.pet_count).to eq(1)
-      
+      expect(application_1.application_pet_count).to eq(1)
+
       PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id)
 
-      expect(application_1.pet_count).to eq(2)
+      expect(application_1.application_pet_count).to eq(2)
     end
   end
 
