@@ -27,43 +27,16 @@ RSpec.describe 'As a visitor' do
                          shelter_id: shelter1.id)
 
       user_name =  user.name
-      address = "#{user.street_address}, #{user.city}, #{user.state} #{user.zip}"
-      description = 'I am an experienced pet owner for 5 years and I just love this pet!'
-      pet_names = "#{pet1.name}, #{pet2.name}"
-      user_id = user.id
-
       visit '/applications/new'
 
-      fill_in :user_name, with: user_name
-      fill_in :address, with: address
-      fill_in :description, with: description
-      fill_in :pet_names, with: pet_names
+      fill_in "user_name", with: user_name
 
       click_button 'Submit'
       application = Application.last
 
 
       expect(current_path).to eq("/applications/#{application.id}")
-
       expect(page).to have_content('Bob')
-      expect(page).to have_content('1234 Test Dr, Denver, Colorado 12345')
-      expect(page).to have_content('I am an experienced pet owner for 5 years and I just love this pet!')
-
-      within "#pet-#{pet1.id}" do
-        expect(page).to have_link(pet1.name)
-        click_link(pet1.name)
-      end
-
-      expect(current_path).to eq("/pets/#{pet1.id}")
-
-      visit "/applications/#{application.id}"
-
-      within "#pet-#{pet2.id}" do
-        expect(page).to have_link(pet2.name)
-        click_link(pet2.name)
-      end
-
-      expect(current_path).to eq("/pets/#{pet2.id}")
     end
   end
 end
