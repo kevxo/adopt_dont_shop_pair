@@ -4,9 +4,14 @@ class ApplicationsController < ApplicationController
 
   def create
     user_id = User.find_by name: params[:user_name]
-    application = Application.new({user_name: params[:user_name], user_id: user_id.id})
-    application.save
-    redirect_to "/applications/#{application.id}"
+    if user_id
+      application = Application.new({user_name: params[:user_name], user_id: user_id.id})
+      application.save
+      redirect_to "/applications/#{application.id}"
+    else
+      flash[:notice] = "Application not created: User couldn't be found."
+      redirect_to '/applications/new'
+    end
   end
 
   def show
