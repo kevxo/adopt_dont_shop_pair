@@ -5,11 +5,31 @@
   <%= @user.zip%><br/>
 </p>
 
+<section class="reviews">
+  <% if @user.reviews %>
+    <h2>Reviews</h2>
+    <p id="average-rating">Average User Rating: <%= @user.average_rating %></p>
 
-<% @reviews.each do |review| %>
-  <section id="review-<%= review.id %>">
-    <h3><%= review.title %></h3>
-    <p>Rating: <%= review.rating %></p>
-    <p><%= review.content %></p>
-  </section><br>
-<% end %>
+    <h3>Best Rating</h3>
+      <div id="best-rating">
+        <h4><%= @user.best_rating_review.title %></h4>
+        <p><%= @user.best_rating_review.rating %></p>
+        <p><%= @user.best_rating_review.content %></p>
+      </div>
+    <h3>Worst Rating</h3>
+      <div id="worst-rating">
+          <h4><%= @user.worst_rating_review.title %></h4>
+          <p><%= @user.worst_rating_review.rating %></p>
+          <p><%= @user.worst_rating_review.content %></p>
+        </div>
+
+    <h3> All Reviews</h3>
+    <% @reviews.each do |review| %>
+      <section id="review-<%= review.id %>">
+        <h4><%= review.title %></h4>
+        <p>Rating: <%= review.rating %></p>
+        <p><%= review.content %></p>
+      </section><br>
+    <% end %>
+  <% end %>
+</section>
