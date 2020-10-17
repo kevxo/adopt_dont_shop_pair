@@ -68,3 +68,17 @@ review_3 = shelter_2.reviews.new(title: "Colorado Cares, not my style", rating: 
           content: "Too many dalmations!", user_name: user_2.name)
 review_3.user_id = user_2.id
 review_3.save!
+
+application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
+                                  description: "I am an experienced pet owner for 5 years and I just love this pet!",
+                                  pet_names: "#{pet_1.name}, #{pet_2.name}", user_id: user_1.id)
+
+application_2 = Application.create!(user_name: user_2.name, address: "#{user_2.street_address}, #{user_2.city}, #{user_2.state} #{user_2.zip}",
+                                  description: "I would be a loving owner for any of these pets. Enough said.",
+                                  pet_names: "#{pet_2.name}, #{pet_4.name}", user_id: user_2.id)
+
+PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
+PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id)
+PetApplication.create!(pet_id: pet_2.id, application_id: application_2.id)
+PetApplication.create!(pet_id: pet_4.id, application_id: application_2.id)
+PetApplication.create!(pet_id: pet_5.id, application_id: application_2.id)
