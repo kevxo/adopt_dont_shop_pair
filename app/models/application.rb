@@ -14,4 +14,10 @@ class Application < ApplicationRecord
       end
     end
   end
+  after_initialize :init
+
+  def init
+    self.application_status ||= "In Progress"
+  end
+
 end

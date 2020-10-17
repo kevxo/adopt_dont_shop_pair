@@ -276,7 +276,7 @@ describe 'As a visitor' do
       expect(page).to_not have_content("#{review_1.title}")
       expect(page).to_not have_xpath("//img[contains(@src,'#{review_1.picture}')]")
       expect(page).to_not have_content("#{review_1.content}")
-      expect(page).to_not have_content("#{review_1.rating}")
+      expect(page).to_not have_content("#{review_1.rating}", exact:true)
       expect(page).to have_content("#{review_2.user_name}")
       expect(page).to have_content("#{review_2.title}")
       expect(page).to have_xpath("//img[contains(@src,'#{review_2.picture}')]")
