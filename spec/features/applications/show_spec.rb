@@ -171,7 +171,7 @@ RSpec.describe "As a visitor" do
           end
         end
       end
-      
+
     end
   end
 end

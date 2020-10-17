@@ -200,4 +200,21 @@ describe 'As a visitor ' do
       expect(current_path).to eq('/shelters')
     end
   end
+
+  describe 'When I visit the pet index page' do
+    it 'should have a link to start application' do
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+      visit "/shelters/#{shelter1.id}/pets"
+
+      expect(page).to have_link('Start an Application')
+
+      click_link 'Start an Application'
+
+      expect(current_path).to eq('/applications/new')
+    end
+  end
 end
