@@ -107,6 +107,17 @@ RSpec.describe "As a visitor" do
           expect(page).to have_content(pet_2.name)
           expect(page).to_not have_content(pet_1.name)
         end
+
+        within "#pet-search" do
+          fill_in "pet_search", with: "#{pet_1.name}"
+          click_button("Search")
+        end
+
+        within "#pet-search-results" do
+          expect(page).to_not have_content(pet_3.name)
+          expect(page).to_not have_content(pet_2.name)
+          expect(page).to have_content(pet_1.name)
+        end
       end
 
       describe "after I search for a pet" do
