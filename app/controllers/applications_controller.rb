@@ -1,4 +1,13 @@
 class ApplicationsController < ApplicationController
+  def new
+  end
+
+  def create
+    user_id = User.find_by name: params[:user_name]
+    application = Application.new({user_name: params[:user_name], user_id: user_id.id})
+    application.save
+    redirect_to "/applications/#{application.id}"
+  end
 
   def show
     @application = Application.find(params[:application_id])
@@ -19,5 +28,4 @@ class ApplicationsController < ApplicationController
     end
     redirect_to "/applications/#{params[:application_id]}"
   end
-
 end
