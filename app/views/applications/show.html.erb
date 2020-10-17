@@ -3,6 +3,15 @@
   <p><b>Application Status:</b> <%= @application.application_status %></p>
 </section><br>
 
+<% if @application.application_status == "In Progress" && @application.application_pet_count > 0 %>
+  <section id="application-<%= @application.id %>-submission">
+    <%= form_tag "/applications/#{@application.id}", method: :patch do %>
+      <%= label_tag "Explain why you would make a good owner for this/these pet(s)." %>
+      <%= text_field_tag :description %>
+      <%= submit_tag "Submit Application" %>
+    <% end %>
+  </section>
+<% end %>
 
 <section class="application_info">
   <h3><%= @application.user_name %></h3>
@@ -18,6 +27,7 @@
   </section>
 </section><br>
 
+<% if @application.application_status == "In Progress" %>
 <section id="pet-search">
   <h3>Pet Search</h3>
   <%= form_tag "/applications/#{@application.id}", method: :get do %>
@@ -36,3 +46,4 @@
     </section>
   <% end %>
 </section>
+<% end %>
