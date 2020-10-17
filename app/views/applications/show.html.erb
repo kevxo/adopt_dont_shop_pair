@@ -1,0 +1,13 @@
+<h2>Application <%= @application.id %></h2>
+
+<section>
+  <h3><%= @application.user_name %></h3>
+  <p><%= @application.address %>  </p>
+  <p><%= @application.description %></p>
+  <h4>Application for:</h4>
+  <ul>
+  <% @application.pets.each do |pet| %>
+    <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
+  <% end %>
+</ul>
+</section>
