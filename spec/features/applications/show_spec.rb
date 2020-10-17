@@ -223,7 +223,7 @@ RSpec.describe "As a visitor" do
             expect(find_field("description").value).to eq(nil)
             click_button("Submit Application")
           end
-          save_and_open_page
+          
           within "#application-#{application_1.id}-submission" do
             expect(page).to have_content("Application not submitted: Please explain why you would be a good pet owner.")
             fill_in "description", with: description
@@ -240,7 +240,7 @@ RSpec.describe "As a visitor" do
             expect(page).to have_content(pet_1.name)
             expect(page).to have_content(pet_2.name)
           end
-          save_and_open_page
+
           expect(page).to_not have_css("#pet-search")
           expect(page).to_not have_css("application-#{application_1.id}-submission")
         end
