@@ -3,4 +3,10 @@ class Application < ApplicationRecord
   belongs_to :user
   has_many :pet_applications
   has_many :pets, through: :pet_applications
+  after_initialize :init
+
+  def init
+    self.application_status ||= "In Progress"
+  end
+  
 end
