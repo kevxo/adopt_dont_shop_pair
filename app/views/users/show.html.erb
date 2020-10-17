@@ -6,7 +6,7 @@
 </p>
 
 <section class="reviews">
-  <% if @user.reviews %>
+  <% if @user.reviews != [] %>
     <h2>Reviews</h2>
     <p id="average-rating">Average User Rating: <%= @user.average_rating %></p>
 
