@@ -24,9 +24,13 @@
     <%= submit_tag "Search" %>
   <% end %>
   <% if @pet_search_result %>
-    <section id="pet-search-result">
-      <p><b>Search result:</b> <%= @pet_search_result.name %></p>
-      <p><b>Pet status:</b> <%= @pet_search_result.adoptable %></p>
+    <h4>Search Results</h4>
+    <section id="pet-search-results">
+      <ol>
+        <% @pet_search_result.each do |pet| %>
+          <li id="pet-<%= pet.id %>"><%= pet.name %></li>
+        <% end %>
+      </ol>
     </section>
   <% end %>
 </section>

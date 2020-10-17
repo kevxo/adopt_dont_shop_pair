@@ -6,7 +6,9 @@ class Pet < ApplicationRecord
   validates_presence_of :name
 
   def self.pet_search(name)
-    Pet.where("name like ?", "%#{name}%")
+    if name
+      Pet.where("name like ?", "%#{name}%")
+    end 
   end
 
 end

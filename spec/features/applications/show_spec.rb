@@ -102,13 +102,15 @@ RSpec.describe "As a visitor" do
           click_button("Search")
         end
 
-        within "#pet-search-result" do
+        within "#pet-search-results" do
           expect(page).to have_content(pet_3.name)
+          expect(page).to have_content(pet_2.name)
+          expect(page).to_not have_content(pet_1.name)
         end
       end
 
       describe "after I search for a pet" do
-        it "I add the pet to my pet adoption list" do
+        it "I can add the pet to my pet adoption list" do
 
         end
       end
