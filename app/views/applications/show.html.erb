@@ -19,24 +19,29 @@
 </section><br>
 
 <% if @application.application_status == "In Progress" %>
-<section id="pet-search">
-  <h3>Pet Search</h3>
-  <%= form_tag "/applications/#{@application.id}", method: :get do %>
-    <%= label_tag "Search for pets by name" %>
-    <%= text_field_tag :pet_search %>
-    <%= submit_tag "Search" %>
-  <% end %>
-  <% if @pet_search_result %>
-    <h4>Search Results</h4>
-    <section id="pet-search-results">
-      <ol>
-        <% @pet_search_result.each do |pet| %>
-          <li id="pet-<%= pet.id %>"><%= pet.name %><%= button_to "Adopt this Pet", "/applications/#{@application.id}?pet_id=#{pet.id}&&pet_name=#{pet.name}", method: :patch %></li>
-        <% end %>
-      </ol>
-    </section>
-  <% end %>
-</section><br>
+  <section id="pet-search">
+    <h3>Pet Search</h3>
+    <%= form_tag "/applications/#{@application.id}", method: :get do %>
+      <%= label_tag "Search for pets by name" %>
+      <%= text_field_tag :pet_search %>
+      <%= submit_tag "Search" %>
+    <% end %>
+    <% flash.each do |type, message| %>
+      <% if type == "pet_notice" %>
+        <p><b><%= message %></b></p>
+      <% end %>
+    <% end %>
+    <% if @pet_search_result %>
+      <h4>Search Results</h4>
+      <section id="pet-search-results">
+        <ol>
+          <% @pet_search_result.each do |pet| %>
+            <li id="pet-<%= pet.id %>"><%= pet.name %><%= button_to "Adopt this Pet", "/applications/#{@application.id}?pet_id=#{pet.id}&&pet_name=#{pet.name}", method: :patch %></li>
+          <% end %>
+        </ol>
+      </section>
+    <% end %>
+  </section><br>
 <% end %>
 
 
@@ -44,7 +49,9 @@
   <section id="application-<%= @application.id %>-submission">
     <h3>Application Submission</h3>
     <% flash.each do |type, message| %>
-      <p><b><%= message %></b></p>
+      <% if type == "description_notice" %>
+        <p><b><%= message %></b></p>
+      <% end %>
     <% end %>
     <%= form_tag "/applications/#{@application.id}", method: :patch do %>
       <%= label_tag "Explain why you would make a good owner for this/these pet(s)." %>

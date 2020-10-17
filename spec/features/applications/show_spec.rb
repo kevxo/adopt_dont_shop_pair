@@ -98,6 +98,17 @@ RSpec.describe "As a visitor" do
         within "#pet-search" do
           expect(page).to have_content("Search for pets by name")
           expect(find_field(:pet_search).value).to eq(nil)
+          click_button("Search")
+        end
+
+        within "#pet-search" do
+          expect(page).to have_content("Sorry, that pet name does not exist in our records.")
+          fill_in "pet_search", with: "George"
+          click_button("Search")
+        end
+
+        within "#pet-search" do
+          expect(page).to have_content("Sorry, that pet name does not exist in our records.")
           fill_in "pet_search", with: "#{pet_3.name}"
           click_button("Search")
         end

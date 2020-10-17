@@ -11,7 +11,11 @@ class ApplicationsController < ApplicationController
 
   def show
     @application = Application.find(params[:application_id])
-    @pet_search_result = Pet.pet_search(params[:pet_search])
+    if params[:pet_search] != "" && Pet.pet_search(params[:pet_search])
+      @pet_search_result = Pet.pet_search(params[:pet_search])
+    elsif params[:pet_search]
+      flash[:pet_notice] = "Sorry, that pet name does not exist in our records."
+    end
   end
 
   def update
@@ -23,8 +27,7 @@ class ApplicationsController < ApplicationController
     if params[:commit] == "Submit Application" && params[:description] != ""
       application.update(description: params[:description], application_status: "Pending")
     elsif params[:commit] == "Submit Application"
-      flash[:notice] = "Application not submitted: Please explain why you would be a good pet owner."
-      # redirect_to "/applications/#{params[:application_id]}"
+      flash[:description_notice] = "Application not submitted: Please explain why you would be a good pet owner."
     end
     redirect_to "/applications/#{params[:application_id]}"
   end
