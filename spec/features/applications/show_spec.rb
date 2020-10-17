@@ -98,6 +98,17 @@ RSpec.describe "As a visitor" do
         within "#pet-search" do
           expect(page).to have_content("Search for pets by name")
           expect(find_field(:pet_search).value).to eq(nil)
+          click_button("Search")
+        end
+
+        within "#pet-search" do
+          expect(page).to have_content("Sorry, that pet name does not exist in our records.")
+          fill_in "pet_search", with: "George"
+          click_button("Search")
+        end
+
+        within "#pet-search" do
+          expect(page).to have_content("Sorry, that pet name does not exist in our records.")
           fill_in "pet_search", with: "#{pet_3.name}"
           click_button("Search")
         end
@@ -169,6 +180,69 @@ RSpec.describe "As a visitor" do
           within "#application-pets" do
             expect(page).to have_link(pet_3.name)
           end
+        end
+      end
+
+      describe "if I have added one or more pets to my application" do
+        it "I can enter a (mandatory) application description and submit my application" do
+          shelter_1 = Shelter.create!(name: "Mile High Adoptive Services", address: "500 w first st", city: "Centennial", state: "CO", zip: "80022")
+          shelter_2 = Shelter.create(name: 'Pets are Us',
+                                    address: '1894 Lincoln.st',
+                                    city: 'Tampa',
+                                    state: 'Florida',
+                                    zip: '32938')
+          pet_1 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg",
+                            name: "Tony",
+                            approximate_age: "2",
+                            sex: "male",
+                            description: "Tony is a wild cracker at times, but is able to calm down and cuddle when needed.")
+          pet_2 = shelter_2.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/german-shorthaired-pointer-dogs-and-puppies/german-shorthaired-pointer-dogs-puppies-3.jpg",
+                                        name: "Ms. Snowballs",
+                                        approximate_age: "5",
+                                        sex: "female",
+                                        description: "Ms. Snowballs is my favorite and I don't want her to go...but then again, I do!")
+
+          user_1 = User.create!(name: 'Holly Baker',
+                              street_address: '4443 fountain ave',
+                              city: 'Lakewood',
+                              state: 'CO',
+                              zip: '80009')
+
+          application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
+                                              pet_names: "#{pet_1.name}, #{pet_2.name}", user_id: user_1.id)
+
+          description = "I just absolutely love all animals. These two will get my best care!"
+
+          PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
+          PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id)
+
+          visit "/applications/#{application_1.id}"
+
+          within "#application-#{application_1.id}-submission" do
+            expect(page).to have_text("Explain why you would make a good owner for this/these pet(s).")
+            expect(find_field("description").value).to eq(nil)
+            click_button("Submit Application")
+          end
+          
+          within "#application-#{application_1.id}-submission" do
+            expect(page).to have_content("Application not submitted: Please explain why you would be a good pet owner.")
+            fill_in "description", with: description
+            click_button("Submit Application")
+          end
+
+          expect(current_path).to eq("/applications/#{application_1.id}")
+
+          within "#application-#{application_1.id}-status" do
+            expect(page).to have_content("Pending")
+          end
+
+          within "#application-pets" do
+            expect(page).to have_content(pet_1.name)
+            expect(page).to have_content(pet_2.name)
+          end
+
+          expect(page).to_not have_css("#pet-search")
+          expect(page).to_not have_css("application-#{application_1.id}-submission")
         end
       end
 

@@ -20,4 +20,8 @@ class Application < ApplicationRecord
     self.application_status ||= "In Progress"
   end
 
+  def application_pet_count
+    self.pets.count
+  end
+
 end

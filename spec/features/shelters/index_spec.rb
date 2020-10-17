@@ -56,11 +56,10 @@ describe 'As a visitor' do
                                 zip: '34638')
       visit '/shelters'
 
-      expect(page).to have_link('Edit')
-
-      visit '/shelters'
-      click_link 'Edit'
-
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_link('Edit')
+        click_link 'Edit'
+      end
       expect(current_path).to eq("/shelters/#{shelter1.id}/edit")
     end
   end
@@ -77,10 +76,10 @@ describe 'As a visitor' do
                                 zip: '34638')
       visit '/shelters'
 
-      expect(page).to have_button('Delete')
-
-      visit '/shelters'
-      click_button 'Delete'
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_button('Delete')
+        click_button 'Delete'
+      end
 
       expect(current_path).to eq('/shelters')
     end

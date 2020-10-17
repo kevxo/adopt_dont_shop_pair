@@ -26,7 +26,7 @@ RSpec.describe "As a user" do
 
       click_on("Create User")
 
-      new_user = User.first
+      new_user = User.last
 
       expect(current_path).to eq("/users/#{new_user.id}")
 

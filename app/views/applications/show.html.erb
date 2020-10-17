@@ -5,34 +5,58 @@
 
 
 <section class="application_info">
-  <h3><%= @application.user_name %></h3>
+  <h3>Applicant: <%= @application.user_name %></h3>
   <p><%= @application.address %>  </p>
   <p><%= @application.description %></p>
   <h4>Application for:</h4>
   <section id="application-pets">
     <ul>
-      <% @application.pets.each do |pet| %>
+      <% @application.pets.uniq.each do |pet| %>
       <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
       <% end %>
     </ul>
   </section>
 </section><br>
 
-<section id="pet-search">
-  <h3>Pet Search</h3>
-  <%= form_tag "/applications/#{@application.id}", method: :get do %>
-    <%= label_tag "Search for pets by name" %>
-    <%= text_field_tag :pet_search %>
-    <%= submit_tag "Search" %>
-  <% end %>
-  <% if @pet_search_result %>
-    <h4>Search Results</h4>
-    <section id="pet-search-results">
-      <ol>
-        <% @pet_search_result.each do |pet| %>
-          <li id="pet-<%= pet.id %>"><%= pet.name %><%= button_to "Adopt this Pet", "/applications/#{@application.id}?pet_id=#{pet.id}&&pet_name=#{pet.name}", method: :patch %></li>
-        <% end %>
-      </ol>
-    </section>
-  <% end %>
-</section>
+<% if @application.application_status == "In Progress" %>
+  <section id="pet-search">
+    <h3>Pet Search</h3>
+    <%= form_tag "/applications/#{@application.id}", method: :get do %>
+      <%= label_tag "Search for pets by name" %>
+      <%= text_field_tag :pet_search %>
+      <%= submit_tag "Search" %>
+    <% end %>
+    <% flash.each do |type, message| %>
+      <% if type == "pet_notice" %>
+        <p><b><%= message %></b></p>
+      <% end %>
+    <% end %>
+    <% if @pet_search_result %>
+      <h4>Search Results</h4>
+      <section id="pet-search-results">
+        <ol>
+          <% @pet_search_result.each do |pet| %>
+            <li id="pet-<%= pet.id %>"><%= pet.name %><%= button_to "Adopt this Pet", "/applications/#{@application.id}?pet_id=#{pet.id}&&pet_name=#{pet.name}", method: :patch %></li>
+          <% end %>
+        </ol>
+      </section>
+    <% end %>
+  </section><br>
+<% end %>
+
+
+<% if @application.application_status == "In Progress" && @application.application_pet_count > 0 %>
+  <section id="application-<%= @application.id %>-submission">
+    <h3>Application Submission</h3>
+    <% flash.each do |type, message| %>
+      <% if type == "description_notice" %>
+        <p><b><%= message %></b></p>
+      <% end %>
+    <% end %>
+    <%= form_tag "/applications/#{@application.id}", method: :patch do %>
+      <%= label_tag "Explain why you would make a good owner for this/these pet(s)." %>
+      <%= text_field_tag :description %>
+      <%= submit_tag "Submit Application" %>
+    <% end %>
+  </section>
+<% end %>
