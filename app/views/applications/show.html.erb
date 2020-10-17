@@ -1,4 +1,8 @@
 <h2>Application <%= @application.id %></h2>
+<section id="application-<%= @application.id %>-status">
+  <p><b>Application Status:</b> <%= @application.application_status %></p>
+</section><br>
+
 
 <section>
   <h3><%= @application.user_name %></h3>
@@ -10,4 +14,19 @@
     <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
   <% end %>
 </ul>
+</section><br>
+
+<section id="pet-search">
+  <h3>Pet Search</h3>
+  <%= form_tag "/applications/#{@application.id}", method: :get do %>
+    <%= label_tag "Search for pets by name" %>
+    <%= text_field_tag :pet_search %>
+    <%= submit_tag "Search" %>
+  <% end %>
+  <% if @pet_search_result %>
+    <section id="pet-search-result">
+      <p><b>Search result:</b> <%= @pet_search_result.name %></p>
+      <p><b>Pet status:</b> <%= @pet_search_result.adoptable %></p>
+    </section>
+  <% end %>
 </section>
