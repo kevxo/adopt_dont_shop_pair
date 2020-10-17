@@ -3,5 +3,10 @@ class Pet < ApplicationRecord
   has_many :pet_applications
   has_many :applications, through: :pet_applications
 
-  validates_presence_of :name 
+  validates_presence_of :name
+
+  def self.pet_search(name)
+    Pet.where("name like ?", "%#{name}%")
+  end
+
 end
