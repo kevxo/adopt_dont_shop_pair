@@ -224,6 +224,10 @@ RSpec.describe 'As a visitor' do
             click_button('Submit Application')
           end
 
+          within "#application-#{application_1.id}-status" do
+            expect(page).to have_content("In Progress")
+          end
+
           within "#application-#{application_1.id}-submission" do
             expect(page).to have_content('Application not submitted: Please explain why you would be a good pet owner.')
             fill_in 'description', with: description
