@@ -7,8 +7,8 @@ class Pet < ApplicationRecord
 
   def self.pet_search(name)
     if name
-      Pet.where("name like ?", "%#{name}%")
-    end 
+      Pet.where("lower(name) like ?", "%#{name.downcase}%")
+    end
   end
 
 end

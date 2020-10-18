@@ -33,8 +33,11 @@ describe Pet do
                                     description: "Just the cutest.")
 
       expect(Pet.pet_search(pet_3.name)).to include(pet_2)
+      expect(Pet.pet_search(pet_3.name.upcase)).to include(pet_2)
       expect(Pet.pet_search(pet_3.name)).to include(pet_3)
+      expect(Pet.pet_search(pet_3.name.downcase)).to include(pet_3)
       expect(Pet.pet_search(pet_3.name)).to_not include(pet_1)
+      expect(Pet.pet_search(pet_3.name.upcase)).to_not include(pet_1)
     end
   end
 end
