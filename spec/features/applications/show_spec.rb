@@ -341,5 +341,62 @@ RSpec.describe 'As a visitor' do
         end
       end
     end
+
+    describe "when I search for a pet name" do
+      it "the search is case-insensitive" do
+        shelter_1 = Shelter.create!(name: 'Mile High Adoptive Services', address: '500 w first st', city: 'Centennial', state: 'CO', zip: '80022')
+
+        pet_1 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg',
+                                       name: 'Tony',
+                                       approximate_age: '2',
+                                       sex: 'male',
+                                       description: 'Tony is a wild cracker at times, but is able to calm down and cuddle when needed.')
+
+        pet_2 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-2.jpg',
+                                       name: 'Snowball',
+                                       approximate_age: '1',
+                                       sex: 'female',
+                                       description: 'Just the cutest.')
+
+        user_1 = User.create!(name: 'Holly Baker',
+                             street_address: '4443 fountain ave',
+                             city: 'Lakewood',
+                             state: 'CO',
+                             zip: '80009')
+
+        application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
+                                           user_id: user_1.id)
+
+         visit "/applications/#{application_1.id}"
+
+         within "#pet-search" do
+           fill_in "pet_search", with: pet_1.name.downcase
+           click_button "Search"
+         end
+
+         within "#pet-search-results" do
+           expect(page).to have_content(pet_1.name)
+         end
+
+         within "#pet-search" do
+           fill_in "pet_search", with: pet_2.name.upcase
+           click_button "Search"
+         end
+
+         within "#pet-search-results" do
+           expect(page).to have_content(pet_2.name)
+         end
+
+         within "#pet-search" do
+           fill_in "pet_search", with: pet_1.name
+           click_button "Search"
+         end
+
+         within "#pet-search-results" do
+           expect(page).to have_content(pet_1.name)
+         end
+       end
+     end 
+
   end
 end

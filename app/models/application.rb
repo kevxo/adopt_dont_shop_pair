@@ -3,6 +3,7 @@ class Application < ApplicationRecord
   belongs_to :user
   has_many :pet_applications
   has_many :pets, through: :pet_applications
+  after_initialize :default_status
 
   def pet_names_ids
     pet_names = self.pet_names.split(',')
@@ -14,9 +15,8 @@ class Application < ApplicationRecord
       end
     end
   end
-  after_initialize :init
 
-  def init
+  def default_status
     self.application_status ||= "In Progress"
   end
 
