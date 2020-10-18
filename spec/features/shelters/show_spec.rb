@@ -260,15 +260,13 @@ describe 'As a visitor' do
 
       visit "/shelters/#{shelter_1.id}"
 
-
-
       within ("#review-#{review_1.id}") do
         expect(page).to have_content("#{review_1.user_name}")
         expect(page).to have_content("#{review_1.title}")
         expect(page).to have_xpath("//img[contains(@src,'#{review_1.picture}')]")
         expect(page).to have_content("#{review_1.content}")
         expect(page).to have_content("#{review_1.rating}")
-        click_link("delete review")
+        click_button("delete review")
       end
 
       expect(current_path).to eq("/shelters/#{shelter_1.id}")

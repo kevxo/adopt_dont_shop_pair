@@ -14,16 +14,17 @@
   <input type="submit" value="Delete Shelter"/>
 </form>
 
-<h1>Reviews</h1>
+<h2>Reviews</h2>
 <% @reviews.each do |review| %>
   <section id="review-<%= review.id %>">
-    <img src="<%= review.picture %>" width="100px"><br/>
+    <img src="<%= review.picture %>" width="100px">
     <p>Name - <%= review.user_name %></p>
     <p>Title - <%= review.title %></p>
     <p>Rating - <%= review.rating %></p>
-    <p>Content - <%= review.content %></p><br>
-    <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
-    <%= link_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit" %>
-    <%= link_to "delete review", "/shelters/#{review.shelter_id}/reviews/#{review.id}", method: :delete %>
-  </section>
+    <p>Content - <%= review.content %></p>
+    <%= button_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit" %>
+    <%= button_to "delete review", "/shelters/#{review.shelter_id}/reviews/#{review.id}", method: :delete %>
+  </section><br><br>
+
+  <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
 <% end %>
