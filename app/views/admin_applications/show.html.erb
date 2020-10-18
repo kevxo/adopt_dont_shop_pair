@@ -1,9 +1,15 @@
 <% @application.pets.each do |pet| %>
   <section id="pet-<%= pet.id %>-application">
-    <p><%= pet.name %></p>
-    <% require "pry"; binding.pry %>
-    <%= form_tag "/admin/applications/#{@application.id}", method: :get do %>
-      <%= submit_tag "Approve Pet" %>
+    <b><%= pet.name %></b>
+    <% if @application.pet_application_status(pet.id) == "Pending" %>
+      <%= form_tag "/admin/applications/#{@application.id}?pet_approval=#{pet.id}", method: :patch do %>
+        <%= submit_tag "Approve Pet" %>
+      <% end %><br>
+      <%= form_tag "/admin/applications/#{@application.id}?pet_approval=#{pet.id}", method: :patch do %>
+        <%= submit_tag "Reject Pet" %>
+      <% end %><br>
+    <% else %>
+        <%= @application.pet_application_status(pet.id) %>
     <% end %>
   </section>
 <% end %>
