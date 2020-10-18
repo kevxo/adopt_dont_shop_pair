@@ -4,6 +4,7 @@ class Pet < ApplicationRecord
   has_many :applications, through: :pet_applications
 
   validates_presence_of :name
+  after_initialize :default_status
 
   def self.pet_search(name)
     if name
@@ -11,4 +12,7 @@ class Pet < ApplicationRecord
     end
   end
 
+  def default_status
+    self.adoptable ||= 'Yes'
+  end
 end
