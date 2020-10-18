@@ -1,0 +1,9 @@
+<% @application.pets.each do |pet| %>
+  <section id="pet-<%= pet.id %>-application">
+    <p><%= pet.name %></p>
+    <% require "pry"; binding.pry %>
+    <%= form_tag "/admin/applications/#{@application.id}", method: :get do %>
+      <%= submit_tag "Approve Pet" %>
+    <% end %>
+  </section>
+<% end %>
