@@ -3,7 +3,7 @@ class Application < ApplicationRecord
   belongs_to :user
   has_many :pet_applications
   has_many :pets, through: :pet_applications
-  after_initialize :default_status
+  after_initialize :default_status, :default_address
 
   def pet_names_ids
     pet_names = self.pet_names.split(',')
@@ -18,6 +18,13 @@ class Application < ApplicationRecord
 
   def default_status
     self.application_status ||= "In Progress"
+  end
+
+  def default_address
+    if self.user_id
+      user = User.find(self.user_id)
+      self.address ||= "#{user.street_address}, #{user.city}, #{user.state} #{user.zip}"
+    end 
   end
 
   def application_pet_count
