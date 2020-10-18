@@ -93,8 +93,8 @@ describe 'As a visitor' do
       visit "/shelters/#{shelter_1.id}"
 
       within ("#review-#{review_1.id}") do
-        expect(page).to have_link("edit review")
-        click_on("edit review")
+        expect(page).to have_button("edit review")
+        click_button("edit review")
       end
 
       visit "/shelters/#{shelter_1.id}/reviews/#{review_1.id}/edit"
