@@ -1,9 +1,13 @@
 <% @application.pets.each do |pet| %>
   <section id="pet-<%= pet.id %>-application">
-    <p><%= pet.name %></p>
-    <% require "pry"; binding.pry %>
-    <%= form_tag "/admin/applications/#{@application.id}", method: :get do %>
-      <%= submit_tag "Approve Pet" %>
+    <h3><%= pet.name %></h3>
+    <% if params[:commit] && pet.adoptable == 'Yes' %>
+        <p><%= pet.name %> - Approved</p>
+      <%else%>
+        <%= form_tag "/admin/applications/#{@application.id}", method: :get do %>
+          <%= submit_tag "Approve Pet" %>
+        <%end%>
     <% end %>
+
   </section>
 <% end %>
