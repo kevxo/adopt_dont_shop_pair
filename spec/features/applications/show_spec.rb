@@ -281,11 +281,64 @@ RSpec.describe 'As a visitor' do
 
         visit "/applications/#{application_1.id}"
 
-        within "#application-pets" do
+        within '#application-pets' do
           expect(page).to_not have_link(pet_1.name)
           expect(page).to_not have_link(pet_2.name)
         end
         expect(page).to_not have_css("application-#{application_1.id}-submission")
+      end
+    end
+
+    describe 'when I search a pet name' do
+      it 'should return a partially matched name(s) as a result' do
+        shelter_1 = Shelter.create!(name: 'Mile High Adoptive Services', address: '500 w first st', city: 'Centennial', state: 'CO', zip: '80022')
+
+        pet_1 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg',
+                                       name: 'Tony',
+                                       approximate_age: '2',
+                                       sex: 'male',
+                                       description: 'Tony is a wild cracker at times, but is able to calm down and cuddle when needed.')
+        pet_2 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg',
+                                       name: 'Toto',
+                                       approximate_age: '4',
+                                       sex: 'male',
+                                       description: 'Toto is a energitic dog that loves to play a lot.')
+        pet_3 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg',
+                                       name: 'Tom',
+                                       approximate_age: '9',
+                                       sex: 'male',
+                                       description: 'Tom is a great and lovable dog.')
+
+        user_1 = User.create!(name: 'Holly Baker',
+                              street_address: '4443 fountain ave',
+                              city: 'Lakewood',
+                              state: 'CO',
+                              zip: '80009')
+
+        application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
+                                            description: 'I am an experienced pet owner for 5 years and I just love this pet!',
+                                            pet_names: "#{pet_1.name}, #{pet_2.name}", user_id: user_1.id)
+
+        PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
+
+        visit "/applications/#{application_1.id}"
+
+        within '#pet-search' do
+          expect(page).to have_content('Search for pets by name')
+          expect(find_field(:pet_search).value).to eq(nil)
+          click_button('Search')
+        end
+
+        within '#pet-search' do
+          fill_in 'pet_search', with: 'To'
+          click_button('Search')
+        end
+
+        within '#pet-search-results' do
+          expect(page).to have_content(pet_1.name)
+          expect(page).to have_content(pet_2.name)
+          expect(page).to have_content(pet_3.name)
+        end
       end
     end
 
@@ -306,44 +359,44 @@ RSpec.describe 'As a visitor' do
                                        description: 'Just the cutest.')
 
         user_1 = User.create!(name: 'Holly Baker',
-                              street_address: '4443 fountain ave',
-                              city: 'Lakewood',
-                              state: 'CO',
-                              zip: '80009')
+                             street_address: '4443 fountain ave',
+                             city: 'Lakewood',
+                             state: 'CO',
+                             zip: '80009')
 
         application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
-                                            user_id: user_1.id)
+                                           user_id: user_1.id)
 
-        visit "/applications/#{application_1.id}"
+         visit "/applications/#{application_1.id}"
 
-        within "#pet-search" do
-          fill_in "pet_search", with: pet_1.name.downcase
-          click_button "Search"
-        end
-        
-        within "#pet-search-results" do
-          expect(page).to have_content(pet_1.name)
-        end
+         within "#pet-search" do
+           fill_in "pet_search", with: pet_1.name.downcase
+           click_button "Search"
+         end
 
-        within "#pet-search" do
-          fill_in "pet_search", with: pet_2.name.upcase
-          click_button "Search"
-        end
+         within "#pet-search-results" do
+           expect(page).to have_content(pet_1.name)
+         end
 
-        within "#pet-search-results" do
-          expect(page).to have_content(pet_2.name)
-        end
+         within "#pet-search" do
+           fill_in "pet_search", with: pet_2.name.upcase
+           click_button "Search"
+         end
 
-        within "#pet-search" do
-          fill_in "pet_search", with: pet_1.name
-          click_button "Search"
-        end
+         within "#pet-search-results" do
+           expect(page).to have_content(pet_2.name)
+         end
 
-        within "#pet-search-results" do
-          expect(page).to have_content(pet_1.name)
-        end
+         within "#pet-search" do
+           fill_in "pet_search", with: pet_1.name
+           click_button "Search"
+         end
 
-      end
-    end
+         within "#pet-search-results" do
+           expect(page).to have_content(pet_1.name)
+         end
+       end
+     end 
+
   end
 end
