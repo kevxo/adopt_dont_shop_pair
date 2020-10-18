@@ -112,7 +112,10 @@ describe 'As a visitor' do
 
       visit "/shelters/#{shelter1.id}/pets"
       visit '/pets'
-      click_link 'Edit Pet'
+
+      within "#pet-#{pet1.id}" do
+        click_link 'Edit Pet'
+      end
 
       expect(current_path).to eq("/pets/#{pet1.id}/edit")
     end
@@ -142,7 +145,10 @@ describe 'As a visitor' do
 
       visit "/shelters/#{shelter1.id}/pets"
       visit '/pets'
-      click_button 'Delete Pet'
+
+      within "#pet-#{pet1.id}" do
+        click_button 'Delete Pet'
+      end
 
       expect(current_path).to eq('/pets')
     end
@@ -198,6 +204,23 @@ describe 'As a visitor ' do
       click_link 'Shelter Index'
 
       expect(current_path).to eq('/shelters')
+    end
+  end
+
+  describe 'When I visit the pet index page' do
+    it 'should have a link to start application' do
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+      visit "/shelters/#{shelter1.id}/pets"
+
+      expect(page).to have_link('Start an Application')
+
+      click_link 'Start an Application'
+
+      expect(current_path).to eq('/applications/new')
     end
   end
 end
