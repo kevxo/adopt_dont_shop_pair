@@ -5,17 +5,20 @@ class Application < ApplicationRecord
   has_many :pets, through: :pet_applications
   after_initialize :default_status, :default_address
 
-  def pet_names_ids
-    #MVC
-    pet_names = self.pet_names.split(',')
+  # def pet_names_ids
+  #   pet_names = self.pet_names.split(',')
+  #
+  #   #Pluck?
+  #   pet_names.map do |pet|
+  #     name = pet.strip
+  #     if Pet.find_by(name: name)
+  #       Pet.find_by(name: name).id
+  #     end
+  #   end
+  # end
 
-    #Pluck?
-    pet_names.map do |pet|
-      name = pet.strip
-      if Pet.find_by(name: name)
-        Pet.find_by(name: name).id
-      end
-    end
+  def unique_pet?(name)
+    !self.pet_names.include?(name)
   end
 
   def default_status
@@ -33,7 +36,6 @@ class Application < ApplicationRecord
   def default_address
     if self.user_id
       user = User.find(self.user_id)
-      #MVC
       self.address ||= "#{user.street_address}, #{user.city}, #{user.state} #{user.zip}"
     end
   end
