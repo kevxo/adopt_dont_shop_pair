@@ -6,6 +6,12 @@
 <%= @shelter.state %><br/>
 <%= @shelter.zip%><br/>
 
+<section id="shelter-stats">
+    <h3>Amount of Pets - <%= @shelter.pet_count %></h3>
+    <h3>Average Shelter Rating - <%= @shelter.average_rating %></h3>
+    <h3>Applications on file - <%= @shelter.number_of_applications %></h3>
+</section>
+
 <a href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a></p>
 
 <form class="delete_index" action="/shelters/<%= @shelter.id %>" method="POST">
