@@ -5,19 +5,32 @@ class Application < ApplicationRecord
   has_many :pets, through: :pet_applications
   after_initialize :default_status, :default_address
 
-  def pet_names_ids
-    pet_names = self.pet_names.split(',')
+  # def pet_names_ids
+  #   pet_names = self.pet_names.split(',')
+  #
+  #   #Pluck?
+  #   pet_names.map do |pet|
+  #     name = pet.strip
+  #     if Pet.find_by(name: name)
+  #       Pet.find_by(name: name).id
+  #     end
+  #   end
+  # end
 
-    pet_names.map do |pet|
-      name = pet.strip
-      if Pet.find_by(name: name)
-        Pet.find_by(name: name).id
-      end
-    end
+  def unique_pet?(name)
+    !self.pet_names.include?(name)
   end
 
   def default_status
     self.application_status ||= "In Progress"
+  end
+
+  def add_pet_name(name)
+    if self.pet_names
+      self.pet_names << ", #{name}"
+    else
+      self.pet_names = name
+    end
   end
 
   def default_address
