@@ -24,11 +24,15 @@ class Application < ApplicationRecord
     if self.user_id
       user = User.find(self.user_id)
       self.address ||= "#{user.street_address}, #{user.city}, #{user.state} #{user.zip}"
-    end 
+    end
   end
 
   def application_pet_count
     self.pets.count
+  end
+
+  def pet_application_status(pet_id)
+    PetApplication.find_by(pet_id: pet_id, application_id: self.id).application_status
   end
 
 end

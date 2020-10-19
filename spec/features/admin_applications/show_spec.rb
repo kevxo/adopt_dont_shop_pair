@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'As a visitor' do
   describe "when I visit an admin application show page '/admin/applications/:id'" do
-    it "I should see a button to approve a pets application for every pet" do
+    it "I should see a button to approve/reject a pet's application for every pet" do
       user = User.create!(name: 'Bob',
                           street_address: '1234 Test Dr',
                           city: 'Denver',
@@ -38,6 +38,7 @@ RSpec.describe 'As a visitor' do
       within "#pet-#{pet1.id}-application" do
         expect(page).to have_content(pet1.name)
         expect(page).to have_button("Approve Pet")
+        expect(page).to have_button("Reject Pet")
         expect(page).to_not have_content("Approved")
         click_button("Approve Pet")
       end
@@ -47,14 +48,25 @@ RSpec.describe 'As a visitor' do
       within "#pet-#{pet1.id}-application" do
         expect(page).to have_content(pet1.name)
         expect(page).to have_content("Approved")
+        expect(page).to_not have_content("Rejected")
         expect(page).to_not have_button("Approve Pet")
+        expect(page).to_not have_button("Reject Pet")
       end
 
       within "#pet-#{pet2.id}-application" do
         expect(page).to_not have_content("Approved")
-        expect(page).to have_button("Approve Pet")
+        expect(page).to_not have_content("Rejected")
+        click_button("Reject Pet")
       end
 
+      expect(current_path).to eq("/admin/applications/#{application_1.id}")
+
+      within "#pet-#{pet2.id}-application" do
+        expect(page).to have_content("Rejected")
+        expect(page).to_not have_content("Approved")
+        expect(page).to_not have_button("Approve Pet")
+        expect(page).to_not have_button("Reject Pet")
+      end
     end
   end
 end
