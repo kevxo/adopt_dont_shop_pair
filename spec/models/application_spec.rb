@@ -141,6 +141,32 @@ RSpec.describe Application, type: :model do
       expect(application_1.pet_application_status(pet_2.id)).to eq("Approved")
     end
 
+    it 'add_pet_name(name)' do
+      shelter_1 = Shelter.create!(name: 'Mile High Adoptive Services', address: '500 w first st', city: 'Centennial', state: 'CO', zip: '80022')
+
+      pet_1 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg',
+                                     name: 'Tony',
+                                     approximate_age: '2',
+                                     sex: 'male',
+                                     description: 'Tony is a wild cracker at times, but is able to calm down and cuddle when needed.')
+
+      pet_2 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-2.jpg',
+                                      name: 'Regina',
+                                      approximate_age: '1',
+                                      sex: 'female',
+                                      description: 'Just the cutest.')
+      user_1 = User.create!(name: 'Holly Baker',
+                            street_address: '4443 fountain ave',
+                            city: 'Lakewood',
+                            state: 'CO',
+                            zip: '80009')
+
+      application_1 = Application.create!(user_name: user_1.name, user_id: user_1.id)
+
+      expect(application_1.add_pet_name(pet_1.name)).to eq("#{pet_1.name}")
+      expect(application_1.add_pet_name(pet_2.name)).to eq("#{pet_1.name}, #{pet_2.name}")
+    end
+
 
   end
 end
