@@ -42,7 +42,7 @@ RSpec.describe 'As a visitor' do
         expect(page).to_not have_content("Approved")
         click_button("Approve Pet")
       end
-      save_and_open_page
+      
       expect(current_path).to eq("/admin/applications/#{application_1.id}")
 
       within "#pet-#{pet1.id}-application" do
