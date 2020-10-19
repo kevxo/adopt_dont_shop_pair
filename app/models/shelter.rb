@@ -9,7 +9,7 @@ class Shelter < ApplicationRecord
   end
 
   def average_rating
-    reviews.pluck(:rating).sum / reviews.pluck(:rating).count
+    self.reviews.average(:rating)
   end
 
   def number_of_applications

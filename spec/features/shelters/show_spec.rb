@@ -331,10 +331,12 @@ describe 'As a visitor' do
 
       within '#shelter-stats' do
         expect(page).to have_content('Amount of Pets - 2')
-        expect(page).to have_content('Average Shelter Rating - 3')
         expect(page).to have_content('Applications on file - 2')
       end
-      save_and_open_page
+
+      within '#review-stats' do
+        expect(page).to have_content('Average Shelter Rating - 3')
+      end
     end
   end
 end

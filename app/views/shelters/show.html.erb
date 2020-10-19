@@ -8,7 +8,6 @@
 
 <section id="shelter-stats">
     <h3>Amount of Pets - <%= @shelter.pet_count %></h3>
-    <h3>Average Shelter Rating - <%= @shelter.average_rating %></h3>
     <h3>Applications on file - <%= @shelter.number_of_applications %></h3>
 </section>
 
@@ -17,20 +16,26 @@
 <form class="delete_index" action="/shelters/<%= @shelter.id %>" method="POST">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <input type="hidden" name="_method" value="DELETE">
-  <input type="submit" value="Delete Shelter"/>
+  <input type="submit"  value="Delete Shelter"/>
 </form>
 
-<h2>Reviews</h2>
-<% @reviews.each do |review| %>
-  <section id="review-<%= review.id %>">
-    <img src="<%= review.picture %>" width="100px">
-    <p>Name - <%= review.user_name %></p>
-    <p>Title - <%= review.title %></p>
-    <p>Rating - <%= review.rating %></p>
-    <p>Content - <%= review.content %></p>
-    <%= button_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit", method: :get %>
-    <%= button_to "delete review", "/shelters/#{review.shelter_id}/reviews/#{review.id}", method: :delete %>
-  </section><br><br>
+<% if @shelter.reviews != [] %>
+  <h2>Reviews</h2>
 
-  <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
+  <section id="review-stats">
+    <h3>Average Shelter Rating - <%= @shelter.average_rating.round(2) %></h3>
+  </section>
+
+  <% @reviews.each do |review| %>
+    <section id="review-<%= review.id %>">
+      <img src="<%= review.picture %>" width="100px">
+      <p>Name - <%= review.user_name %></p>
+      <p>Title - <%= review.title %></p>
+      <p>Rating - <%= review.rating %></p>
+      <p>Content - <%= review.content %></p>
+      <%= button_to "edit review", "/shelters/#{review.shelter_id}/reviews/#{review.id}/edit", method: :get %>
+      <%= button_to "delete review", "/shelters/#{review.shelter_id}/reviews/#{review.id}", method: :delete %>
+    </section><br><br>
+  <% end %>
 <% end %>
+  <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
