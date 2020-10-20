@@ -148,7 +148,6 @@ describe 'As a visitor' do
                           adoptable: 'No',
                           shelter_id: shelter1.id)
 
-
       application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
 
       pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
@@ -163,6 +162,49 @@ describe 'As a visitor' do
         click_button 'Delete'
       end
       expect(page).to have_content("Shelter can't be deleted: Pet status is pending/approved")
+    end
+  end
+
+  describe 'If a shelter doesnt have a pet with an approved application' do
+    it 'can delete shelter if no applications are approved' do
+      user = User.create!(name: 'Bob',
+                          street_address: '1234 Test Dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '12345')
+
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+
+      pet_1 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                          name: 'Mittens',
+                          approximate_age: '6 years',
+                          sex: 'Male',
+                          shelter_id: shelter1.id)
+
+      pet_2 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+                          name: 'Tiger',
+                          approximate_age: '4 years',
+                          sex: 'Male',
+                          adoptable: 'No',
+                          shelter_id: shelter1.id)
+
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
+
+      pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Pending')
+      pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Rejected')
+
+      application_pets = PetApplication.where(application_id: application_1.id)
+      visit '/shelters'
+
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_button('Delete')
+        click_button 'Delete'
+      end
+      expect(current_path).to eq('/shelters')
     end
   end
 end
