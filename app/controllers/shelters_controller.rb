@@ -44,8 +44,15 @@ class SheltersController < ApplicationController
   end
 
   def destroy
-    Shelter.destroy(params[:id])
-    redirect_to '/shelters'
+    @shelter = Shelter.find(params[:id])
+    # require 'pry' ; binding.pry
+    if !@shelter.cant_delete?
+      Shelter.destroy(params[:id])
+      redirect_to '/shelters'
+    else
+      flash[:notice] = "Shelter can't be deleted: Pet status is pending/approved"
+      redirect_to '/shelters'
+    end
   end
 
   def pet_index
