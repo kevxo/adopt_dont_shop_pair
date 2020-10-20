@@ -2,6 +2,10 @@ class ApplicationsController < ApplicationController
   def new
   end
 
+  def index
+    @applications = PetApplication.find_pet_applications(params[:pet_id])
+  end
+
   def create
     user_id = User.find_by name: params[:user_name]
     if user_id
