@@ -27,8 +27,10 @@ class Shelter < ApplicationRecord
     pets.each do |pet|
       pet_application = PetApplication.find_by pet_id: pet.id
       application = Application.find_by(id: pet_application.application_id)
-      if application.application_status == 'In Progress' || 'Approved'
+      if PetApplication.all_approved?(application.id)
         dont_delete = true
+      else
+        dont_delete = false
       end
     end
     dont_delete
