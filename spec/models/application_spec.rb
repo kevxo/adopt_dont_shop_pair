@@ -207,6 +207,5 @@ RSpec.describe Application, type: :model do
       expect(application_1.unique_pet?(pet_3.name)).to eq(false)
     end
 
-
   end
 end
