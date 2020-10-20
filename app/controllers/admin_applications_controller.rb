@@ -18,7 +18,7 @@ class AdminApplicationsController < ApplicationController
     if application_pets.all_approved?(params[:application_id]) && !application_pets.any_pending?(params[:application_id])
       application.update(application_status: "Approved")
     elsif !application_pets.all_approved?(params[:application_id]) && !application_pets.any_pending?(params[:application_id])
-      #reject application if there is one that is rejected
+      application.update(application_status: "Rejected")
     end
     redirect_to "/admin/applications/#{params[:application_id]}"
   end
