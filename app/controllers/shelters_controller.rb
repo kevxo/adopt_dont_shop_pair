@@ -45,7 +45,6 @@ class SheltersController < ApplicationController
 
   def destroy
     @shelter = Shelter.find(params[:id])
-    # require 'pry' ; binding.pry
     if !@shelter.cant_delete?
       Shelter.destroy(params[:id])
       redirect_to '/shelters'
