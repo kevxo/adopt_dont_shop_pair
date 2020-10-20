@@ -207,5 +207,47 @@ RSpec.describe Application, type: :model do
       expect(application_1.unique_pet?(pet_3.name)).to eq(false)
     end
 
+    it 'adopt_pets' do
+      user = User.create!(name: 'Bob',
+                          street_address: '1234 Test Dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '12345')
+
+      shelter_1 = Shelter.create!(name: "Rocky Mountain High", address: "1234 fake st.", city: "Denver", state: "CO", zip: "45505")
+
+
+      pet1 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                         name: 'Mittens',
+                         approximate_age: '6 years',
+                         sex: 'Male',
+                         shelter_id: shelter_1.id)
+
+      pet2 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+                         name: 'Tiger',
+                         approximate_age: '4 years',
+                         sex: 'Male',
+                         shelter_id: shelter_1.id)
+
+      pet3 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-2.jpg",
+                               name: "Snowball",
+                               approximate_age: "1",
+                               sex: "female",
+                               description: "Just the cutest.")
+
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: "Approved")
+
+      PetApplication.create!(pet_id: pet1.id, application_id: application_1.id)
+      PetApplication.create!(pet_id: pet2.id, application_id: application_1.id)
+      PetApplication.create!(pet_id: pet3.id, application_id: application_1.id)
+
+      application_1.adopt_pets
+
+      application_1.pets.each do |pet|
+        expect(pet.adoptable).to eq("No")
+      end
+
+    end
+
   end
 end

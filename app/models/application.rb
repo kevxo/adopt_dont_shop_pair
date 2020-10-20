@@ -48,5 +48,11 @@ class Application < ApplicationRecord
     PetApplication.find_by(pet_id: pet_id, application_id: self.id).application_status
   end
 
+  def adopt_pets
+    self.pets.each do |pet|
+      pet.update(adoptable: "No")
+    end
+  end
+
 
 end
