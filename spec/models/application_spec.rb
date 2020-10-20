@@ -12,38 +12,7 @@ RSpec.describe Application, type: :model do
   end
 
   describe 'instance methods' do
-    # it '.pet_names_ids' do
-    #   user = User.create!(name: 'Bob',
-    #                       street_address: '1234 Test Dr',
-    #                       city: 'Denver',
-    #                       state: 'Colorado',
-    #                       zip: '12345')
-    #   shelter1 = Shelter.create!(name: 'Dogs and Cats',
-    #                              address: '1234 spoon.st',
-    #                              city: 'Tampa',
-    #                              state: 'Florida',
-    #                              zip: '34638')
-    #
-    #   pet1 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
-    #                      name: 'Mittens',
-    #                      approximate_age: '6 years',
-    #                      sex: 'Male',
-    #                      shelter_id: shelter1.id)
-    #
-    #   pet2 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
-    #                      name: 'Tiger',
-    #                      approximate_age: '4 years',
-    #                      sex: 'Male',
-    #                      shelter_id: shelter1.id)
-    #
-    #   application_1 = Application.create!(user_name: user.name, address: "#{user.street_address}, #{user.city}, #{user.state} #{user.zip}",
-    #                                       description: 'I am an experienced pet owner for 5 years and I just love this pet!',
-    #                                       pet_names: "#{pet1.name},#{pet2.name}", user_id: user.id)
-    #
-    #   expect(application_1.pet_names_ids).to eq([pet1.id, pet2.id])
-    # end
-
-    it 'default_status' do
+      it 'default_status' do
       shelter_1 = Shelter.create!(name: "Mile High Adoptive Services", address: "500 w first st", city: "Centennial", state: "CO", zip: "80022")
 
       pet_1 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg",
@@ -246,7 +215,52 @@ RSpec.describe Application, type: :model do
       application_1.pets.each do |pet|
         expect(pet.adoptable).to eq("No")
       end
+    end
 
+    it 'reject_outstanding_applications' do
+      user_1 = User.create!(name: 'Bob Woodword',
+                          street_address: '1234 Test Dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '12345')
+
+      user_2  = User.create!(name: 'Jeff Daniels',
+                          street_address: '455 west dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '87709')
+
+      user_3 = User.create!(name: 'Holly Baker',
+                          street_address: '4443 fountain ave',
+                          city: 'Lakewood',
+                          state: 'CO',
+                          zip: '80009')
+
+      shelter_1 = Shelter.create!(name: "Rocky Mountain High", address: "1234 fake st.", city: "Denver", state: "CO", zip: "45505")
+
+      pet1 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                         name: 'Mittens',
+                         approximate_age: '6 years',
+                         sex: 'Male',
+                         shelter_id: shelter_1.id)
+
+      application_1 = Application.create!(user_name: user_1.name, user_id: user_1.id, application_status: "Approved")
+      application_2 = Application.create!(user_name: user_2.name, user_id: user_1.id, application_status: "Pending")
+      application_3 = Application.create!(user_name: user_3.name, user_id: user_1.id, application_status: "Pending")
+
+      pet_app_1 = PetApplication.create!(pet_id: pet1.id, application_id: application_1.id)
+      pet_app_2 = PetApplication.create!(pet_id: pet1.id, application_id: application_2.id)
+      pet_app_3 = PetApplication.create!(pet_id: pet1.id, application_id: application_3.id)
+
+      Application.reject_outstanding_applications(application_1, application_1.pets.first.applications)
+
+      # Why isn't this updating???
+      # expect(application_2.application_status).to eq("Rejected")
+      # expect(application_3.application_status).to eq("Rejected")
+
+      expect(application_1.pets.first.applications[0].application_status).to eq("Approved")
+      expect(application_1.pets.first.applications[1].application_status).to eq("Rejected")
+      expect(application_1.pets.first.applications[2].application_status).to eq("Rejected")
     end
 
   end
