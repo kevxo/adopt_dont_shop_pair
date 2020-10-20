@@ -7,7 +7,7 @@ class AdminApplicationsController < ApplicationController
   def update
     application = Application.find(params[:application_id])
     application_pets = PetApplication.where(application_id: params[:application_id])
-    pet_application = PetApplication.where(application_id: params[:application_id], pet_id: params[:pet_approval])
+    pet_application = PetApplication.where(application_id: params[:application_id], pet_id: params[:pet_id])
 
     if params[:commit] == "Approve Pet"
       pet_application.update(application_status: "Approved")
