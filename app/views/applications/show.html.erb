@@ -11,7 +11,7 @@
   <h4>Application for:</h4>
   <section id="application-pets">
     <ul>
-      <% @application.pets.uniq.each do |pet| %>
+      <% @application.pets.each do |pet| %>
       <li id="pet-<%= pet.id %>"><%= link_to "#{pet.name}", "/pets/#{pet.id}" %></li>
       <% end %>
     </ul>
