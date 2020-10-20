@@ -21,4 +21,15 @@ class Shelter < ApplicationRecord
     end
     count
   end
+
+  def cant_delete?
+    dont_delete = nil
+    pets.each do |pet|
+      application = PetApplication.find_by pet_id: pet.id
+      if application.application_status == 'Pending' || 'Approved'
+        dont_delete = true
+      end
+    end
+    dont_delete
+  end
 end
