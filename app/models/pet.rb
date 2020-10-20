@@ -20,4 +20,9 @@ class Pet < ApplicationRecord
     self.adoptable == "Yes"
   end
 
+  def cant_delete_pet?
+    pet_applications.pluck(:application_status).any? do |application|
+      application == 'Approved'
+    end
+  end
 end
