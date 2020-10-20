@@ -6,6 +6,14 @@
   padding: 10px;
 }
 
+#info {
+  border-style: solid;
+  position: relative;
+  left: 10px;
+  background-color: bisque;
+  padding: 10px;
+}
+
 .title{
 background-color: bisque;
 text-align: center;

@@ -4,8 +4,8 @@
 <a class="index_links" href="/pets">Pet Index</a>
 
 <% @shelters.each do |shelter| %>
-  <section id="shelter-<%= shelter.id %>">
-    <p class="info" ><a class="edit" href="/shelters/<%= shelter.id %>/edit">Edit</a></p>
+  <section id="shelter-<%= shelter.id %>" class="info">
+    <a class="edit" href="/shelters/<%= shelter.id %>/edit">Edit</a>
       <b><a class="shelter_name" href="/shelters/<%= shelter.id %>"><%= shelter.name %></a></b><br/>
       <%= shelter.address %><br/>
       <%= shelter.city %><br/>
