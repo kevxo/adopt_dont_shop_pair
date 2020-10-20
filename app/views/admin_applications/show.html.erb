@@ -6,13 +6,15 @@
 <% @application.pets.each do |pet| %>
   <section id="pet-<%= pet.id %>-application">
     <b><%= pet.name %></b>
-    <% if @application.pet_application_status(pet.id) == "Pending" %>
-      <%= form_tag "/admin/applications/#{@application.id}?pet_approval=#{pet.id}", method: :patch do %>
+    <% if @application.pet_application_status(pet.id) == "Pending" && pet.adoptable?%>
+      <%= form_tag "/admin/applications/#{@application.id}?pet_id=#{pet.id}", method: :patch do %>
         <%= submit_tag "Approve Pet" %>
       <% end %><br>
-      <%= form_tag "/admin/applications/#{@application.id}?pet_approval=#{pet.id}", method: :patch do %>
+      <%= form_tag "/admin/applications/#{@application.id}?pet_id=#{pet.id}", method: :patch do %>
         <%= submit_tag "Reject Pet" %>
       <% end %><br>
+    <% elsif !pet.adoptable? %>
+      <i> This pet has been approved for adoption.</i>
     <% else %>
         <%= @application.pet_application_status(pet.id) %>
     <% end %>
