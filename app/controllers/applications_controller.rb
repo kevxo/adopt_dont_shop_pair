@@ -29,8 +29,8 @@ class ApplicationsController < ApplicationController
       application.update(description: params[:description], application_status: "Pending")
     elsif params[:commit] == "Submit Application"
       flash[:description_notice] = "Application not submitted: Please explain why you would be a good pet owner."
-    elsif params[:pet_name]
-      application.update(pet_names: application.pet_names.concat(", #{params[:pet_name]}"))
+    elsif params[:pet_name] && application.unique_pet?(params[:pet_name])
+      application.update(pet_names: application.add_pet_name(params[:pet_name]))
       PetApplication.create(pet_id: params[:pet_id], application_id: params[:application_id])
     end
     redirect_to "/applications/#{params[:application_id]}"

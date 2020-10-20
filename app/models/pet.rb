@@ -15,4 +15,9 @@ class Pet < ApplicationRecord
   def default_status
     self.adoptable ||= 'Yes'
   end
+
+  def adoptable?
+    self.adoptable == "Yes"
+  end
+
 end
