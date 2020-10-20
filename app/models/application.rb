@@ -51,5 +51,4 @@ class Application < ApplicationRecord
     end
   end
 
-
 end
