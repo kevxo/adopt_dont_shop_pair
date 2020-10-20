@@ -6,4 +6,12 @@ class PetApplication < ApplicationRecord
   def default_status
     self.application_status ||= "Pending"
   end
+
+  def self.all_approved?(application_id)
+    application_pets = self.where(application_id: application_id)
+    application_pets.all? do |pet_application|
+      pet_application.application_status == "Approved"
+    end 
+  end
+
 end
