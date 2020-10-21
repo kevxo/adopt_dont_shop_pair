@@ -6,7 +6,11 @@ class Application < ApplicationRecord
   after_initialize :default_status, :default_address
 
   def unique_pet?(name)
-    !self.pet_names.include?(name)
+    if self.pet_names
+      !self.pet_names.include?(name)
+    else
+      true
+    end
   end
 
   def default_status
