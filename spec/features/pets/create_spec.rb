@@ -18,11 +18,16 @@ describe "When I have clicked the link 'Create Pet'" do
     fill_in 'pet[sex]',	with: 'Female'
 
     click_button 'Create Pet'
-    expect(page).to have_xpath("//img[contains(@src,'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg')]")
-    expect(page).to have_content('Lucy')
-    expect(page).to have_content('Demon eyes and ruffled tongue')
-    expect(page).to have_content('2 years')
-    expect(page).to have_content('Female')
+
+    pet = Pet.last
     expect(current_path).to eq("/shelters/#{shelter1.id}/pets")
+
+    within "#pet-#{pet.id}" do
+      expect(page).to have_xpath("//img[contains(@src,'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg')]")
+      expect(page).to have_content('Lucy')
+      expect(page).to have_content('Demon eyes and ruffled tongue')
+      expect(page).to have_content('2 years')
+      expect(page).to have_content('Female')
+    end 
   end
 end
