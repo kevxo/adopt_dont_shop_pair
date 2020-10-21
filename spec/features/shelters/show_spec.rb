@@ -365,7 +365,7 @@ describe 'As a visitor' do
                           adoptable: 'No',
                           shelter_id: shelter1.id)
 
-      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Approved')
 
       pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
       pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Approved')

@@ -213,6 +213,7 @@ describe 'As a visitor' do
         click_button 'Delete Shelter'
       end
       expect(current_path).to eq('/shelters')
+      expect(page).to_not have_css("#shelter-#{shelter1.id}")
     end
   end
 end
