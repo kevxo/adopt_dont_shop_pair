@@ -35,6 +35,20 @@ RSpec.describe "As a user" do
       expect(page).to have_content("Denver")
       expect(page).to have_content("Colorado")
       expect(page).to have_content("80029")
+    end
+
+    it 'user cannot create an account without a name' do
+      visit "/users/new"
+
+      fill_in "address", with: "1234 west first street"
+      fill_in "city", with: "Denver"
+      fill_in "state", with: "Colorado"
+      fill_in "zip", with: "80029"
+
+      click_on("Create User")
+
+      expect(current_path).to eq("/users/new")
+      expect(page).to have_content("User not created: Please include a username.")
 
     end
   end

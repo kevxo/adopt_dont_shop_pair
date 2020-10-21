@@ -9,8 +9,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.create(user_params)
-    redirect_to "/users/#{user.id}"
+    user = User.new(user_params)
+    if user.name != ""
+      user.save
+      redirect_to "/users/#{user.id}"
+    else
+      flash[:notice] = "User not created: Please include a username."
+      redirect_to "/users/new"
+    end
   end
 
   private
