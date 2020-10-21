@@ -4,15 +4,15 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    user_id = User.find_by(name: params[:review][:user_name])
+    user_id = User.find_by(name: params[:user_name])
 
     if user_id
       review = Review.new({
-        user_name: params[:review][:user_name],
-        title: params[:review][:title],
-        picture: params[:review][:picture],
-        content: params[:review][:content],
-        rating: params[:review][:rating],
+        user_name: params[:user_name],
+        title: params[:title],
+        picture: params[:picture],
+        content: params[:content],
+        rating: params[:rating],
         user_id: user_id.id,
         shelter_id: params[:id]
       })
