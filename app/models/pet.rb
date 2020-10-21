@@ -24,8 +24,5 @@ class Pet < ApplicationRecord
     self.applications.none? do |application|
       application.application_status == "Approved"
     end
-    # pet_applications.pluck(:application_status).any? do |application|
-    #   application == 'Approved'
-    # end
   end
 end
