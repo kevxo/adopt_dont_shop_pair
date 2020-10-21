@@ -1,10 +1,10 @@
-<h2>Application <%= @application.id %></h2>
-<section id="application-<%= @application.id %>-status">
+<h2 class="title">Application <%= @application.id %></h2>
+<section id="application-<%= @application.id %>-status" class="info">
   <p><b>Application Status:</b> <%= @application.application_status %></p>
 </section><br>
 
 
-<section class="application_info">
+<section class="application_info" id="info">
   <h3>Applicant: <%= @application.user_name %></h3>
   <p><%= @application.address %>  </p>
   <p><%= @application.description %></p>
@@ -19,8 +19,8 @@
 </section><br>
 
 <% if @application.application_status == "In Progress" %>
-  <section id="pet-search">
-    <h3>Pet Search</h3>
+  <section id="pet-search" class="info">
+    <h3 class="title">Pet Search</h3>
     <%= form_tag "/applications/#{@application.id}", method: :get do %>
       <%= label_tag "Search for pets by name" %>
       <%= text_field_tag :pet_search %>

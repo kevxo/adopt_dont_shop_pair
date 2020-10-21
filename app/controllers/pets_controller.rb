@@ -23,7 +23,7 @@ class PetsController < ApplicationController
   end
 
   def show
-    @pets = Pet.find(params[:id])
+    @pet = Pet.find(params[:id])
   end
 
   def edit

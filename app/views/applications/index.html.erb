@@ -1,0 +1,12 @@
+<section class="pet-applicants">
+  <% if @applications == [] %>
+    <i>No applications for this pet currently.</i>
+  <% else %>
+    <ol>
+      <h4>Applicants For This Pet</h4>
+      <% @applications.each do |application| %>
+        <li id="applicant-<%= application.id %>"><%= link_to "#{application.user_name}", "/applications/#{application.id}" %></li>
+      <% end %>
+    </ol>
+  <% end %>
+</section>

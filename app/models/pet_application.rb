@@ -21,4 +21,11 @@ class PetApplication < ApplicationRecord
     end
   end
 
+  def self.find_pet_applications(pet_id)
+    pet_applications = PetApplication.where(pet_id: pet_id).select(' * ,applications.user_name').joins(:application)
+    pet_applications.map do |pet_application|
+      pet_application.application
+    end
+  end
+
 end

@@ -53,6 +53,12 @@ user_3 = User.create!(name: 'Holly Baker',
                     state: 'CO',
                     zip: '80009')
 
+user_4 = User.create!(name: "Geraldine Grossman",
+                    street_address: '2112 Olivander Pk',
+                    city: 'Aurora',
+                    state: 'Colorado',
+                    zip: '80018')
+                    
 review_1 = shelter_2.reviews.new(title: "Colorado Cares is the best", rating: 5,
           content: "I absolutely love this shelter. I have found the best friends a man could have!",
           user_name: user_1.name)
