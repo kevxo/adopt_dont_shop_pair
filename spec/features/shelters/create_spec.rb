@@ -8,11 +8,11 @@ RSpec.describe "As a user", type: :feature do
         create shelter and be redirected back to shelters' do
           visit '/shelters/new'
 
-          fill_in 'shelter[name]', with: 'Dog and Cats'
-          fill_in 'shelter[address]', with: '1234 spoon.st'
-          fill_in 'shelter[city]', with: 'Tampa'
-          fill_in 'shelter[state]', with: 'Florida'
-          fill_in 'shelter[zip]', with: '34638'
+          fill_in 'name', with: 'Dog and Cats'
+          fill_in 'address', with: '1234 spoon.st'
+          fill_in 'city', with: 'Tampa'
+          fill_in 'state', with: 'Florida'
+          fill_in 'zip', with: '34638'
 
           click_button 'Create Shelter'
           expect(page).to have_content('Dog and Cats')

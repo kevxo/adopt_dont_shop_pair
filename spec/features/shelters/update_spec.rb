@@ -11,11 +11,11 @@ describe "When I have clicked the button 'Update Shelter'" do
 
     visit "/shelters/#{shelter1.id}/edit"
 
-    fill_in 'shelter[name]', with: 'Dogs'
-    fill_in 'shelter[address]', with: '1234 spoon.st'
-    fill_in 'shelter[city]', with: 'Miami'
-    fill_in 'shelter[state]', with: 'Florida'
-    fill_in 'shelter[zip]', with: '12345'
+    fill_in 'name', with: 'Dogs'
+    fill_in 'address', with: '1234 spoon.st'
+    fill_in 'city', with: 'Miami'
+    fill_in 'state', with: 'Florida'
+    fill_in 'zip', with: '12345'
     click_button 'Submit'
 
     expect(page).to have_content('Dogs')
