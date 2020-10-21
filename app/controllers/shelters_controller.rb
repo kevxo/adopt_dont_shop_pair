@@ -45,7 +45,7 @@ class SheltersController < ApplicationController
 
   def destroy
     @shelter = Shelter.find(params[:id])
-    if !@shelter.cant_delete?
+    if @shelter.deletable?
       Shelter.destroy(params[:id])
       redirect_to '/shelters'
     else
