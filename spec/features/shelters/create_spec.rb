@@ -26,10 +26,10 @@ RSpec.describe "As a user", type: :feature do
         it "I cannot create a new shelter without a shelter name" do
           visit '/shelters/new'
 
-          fill_in 'shelter[address]', with: '1234 spoon.st'
-          fill_in 'shelter[city]', with: 'Tampa'
-          fill_in 'shelter[state]', with: 'Florida'
-          fill_in 'shelter[zip]', with: '34638'
+          fill_in 'address', with: '1234 spoon.st'
+          fill_in 'city', with: 'Tampa'
+          fill_in 'state', with: 'Florida'
+          fill_in 'zip', with: '34638'
 
           click_button "Create Shelter"
 
