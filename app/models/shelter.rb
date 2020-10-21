@@ -22,17 +22,14 @@ class Shelter < ApplicationRecord
     count
   end
 
-  def cant_delete?
-    dont_delete = nil
-    pets.each do |pet|
-      pet_application = PetApplication.find_by pet_id: pet.id
-      application = Application.find_by(id: pet_application.application_id)
-      if PetApplication.all_approved?(application.id)
-        dont_delete = true
-      else
-        dont_delete = false
-      end
+  def deletable?
+    shelter_pets = self.pets
+    applications = shelter_pets.map do |pet|
+      pet.applications
+    end.flatten
+
+    applications.none? do |application|
+      application.application_status == "Approved"
     end
-    dont_delete
   end
 end
