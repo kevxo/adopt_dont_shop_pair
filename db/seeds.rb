@@ -36,13 +36,12 @@ pet_5 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/
                               approximate_age: "4",
                               sex: "female",
                               description: "Don't let her beauty fool ya, she's a stone-cold killer.")
-pet_6 = shelter_3.Pet.create(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+pet_6 = shelter_3.pets.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
                   name: 'Mittens',
                   description: "He's healthy",
                   approximate_age: '6 years',
                   sex: 'Male')
-
-pet_7 = shelter_3.Pet.create(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+pet_7 = shelter_3.pets.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
                   name: 'Tiger',
                   description: "If you're a cat person, then Tiger is for you.",
                   approximate_age: '4 years',
