@@ -18,11 +18,36 @@ describe "When I have clicked the link 'Create Pet'" do
     fill_in 'pet[sex]',	with: 'Female'
 
     click_button 'Create Pet'
-    expect(page).to have_xpath("//img[contains(@src,'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg')]")
-    expect(page).to have_content('Lucy')
-    expect(page).to have_content('Demon eyes and ruffled tongue')
-    expect(page).to have_content('2 years')
-    expect(page).to have_content('Female')
+
+    pet = Pet.last
     expect(current_path).to eq("/shelters/#{shelter1.id}/pets")
+
+    within "#pet-#{pet.id}" do
+      expect(page).to have_xpath("//img[contains(@src,'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg')]")
+      expect(page).to have_content('Lucy')
+      expect(page).to have_content('Demon eyes and ruffled tongue')
+      expect(page).to have_content('2 years')
+      expect(page).to have_content('Female')
+    end
+  end
+
+  it "I cannot create a pet without a name" do
+    shelter1 = Shelter.create(name: 'Dogs and Cats',
+                              address: '1234 spoon.st',
+                              city: 'Tampa',
+                              state: 'Florida',
+                              zip: '34638')
+
+    visit "/shelters/#{shelter1.id}/pets/new"
+
+    fill_in 'pet[img]',	with: 'https://upload.wikimedia.org/wikipedia/commons/f/f0/Hell-hound_Link_%289090238332%29.jpg'
+    fill_in 'pet[description]',	with: 'Demon eyes and ruffled tongue'
+    fill_in 'pet[approximate_age]',	with: '2 years'
+    fill_in 'pet[sex]',	with: 'Female'
+
+    click_button "Create Pet"
+
+    expect(current_path).to eq("/shelters/#{shelter1.id}/pets/new")
+    expect(page).to have_content("Pet not created: Please include a pet name.")
   end
 end

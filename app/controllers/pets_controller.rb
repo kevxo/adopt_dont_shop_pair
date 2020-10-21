@@ -17,9 +17,14 @@ class PetsController < ApplicationController
                     adoptable: params[:pet][:adoptable],
                     shelter_id: params[:id]
                   })
+    if pet.name != ""
+      pet.save
+      redirect_to "/shelters/#{params[:id]}/pets"
+    else
+      flash[:notice] = "Pet not created: Please include a pet name."
+      redirect_to "/shelters/#{params[:id]}/pets/new"
+    end
 
-    pet.save
-    redirect_to "/shelters/#{params[:id]}/pets"
   end
 
   def show

@@ -150,6 +150,11 @@ RSpec.describe Application, type: :model do
                              city: 'Lakewood',
                              state: 'CO',
                              zip: '80009')
+      user_2  = User.create!(name: 'Jeff Daniels',
+                         street_address: '455 west dr',
+                         city: 'Denver',
+                         state: 'Colorado',
+                         zip: '87709')
       pet_1 = shelter_1.pets.create!(img: 'https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg',
                                      name: 'Tony',
                                      approximate_age: '2',
@@ -169,11 +174,13 @@ RSpec.describe Application, type: :model do
                                      description: 'Tony is a wild cracker at times, but is able to calm down and cuddle when needed.')
 
       application_1 = Application.create!(user_name: user_1.name, user_id: user_1.id, pet_names: pet_1.name)
+      application_2 = Application.create!(user_name: user_2.name, user_id: user_2.id)
 
       PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
 
       expect(application_1.unique_pet?(pet_2.name)).to eq(true)
       expect(application_1.unique_pet?(pet_3.name)).to eq(false)
+      expect(application_2.unique_pet?(pet_3.name)).to eq(true)
     end
 
     it 'adopt_pets' do

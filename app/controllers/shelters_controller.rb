@@ -14,10 +14,14 @@ class SheltersController < ApplicationController
                             state: params[:shelter][:state],
                             zip: params[:shelter][:zip]
                           })
+    if shelter.name != ""
+      shelter.save
+      redirect_to '/shelters'
+    else
+      flash[:notice] = "Shelter not created: Please provide a shelter name."
+      redirect_to '/shelters/new'
+    end
 
-    shelter.save
-
-    redirect_to '/shelters'
   end
 
   def show

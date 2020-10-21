@@ -22,6 +22,21 @@ RSpec.describe "As a user", type: :feature do
           expect(page).to have_content('34638')
           expect(current_path).to eq('/shelters')
         end
+
+        it "I cannot create a new shelter without a shelter name" do
+          visit '/shelters/new'
+
+          fill_in 'shelter[address]', with: '1234 spoon.st'
+          fill_in 'shelter[city]', with: 'Tampa'
+          fill_in 'shelter[state]', with: 'Florida'
+          fill_in 'shelter[zip]', with: '34638'
+
+          click_button "Create Shelter"
+
+          expect(current_path).to eq("/shelters/new")
+          expect(page).to have_content("Shelter not created: Please provide a shelter name.")
+          expect(page).to have_button("Create Shelter")
+        end
       end
     end
 
