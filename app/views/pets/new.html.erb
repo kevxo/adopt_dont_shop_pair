@@ -1,5 +1,5 @@
 <%= form_tag "/shelters/#{@id}/pets", method: 'post', class: "info" do %>
-  <h1>Pet Information</h1>
+  <h1 class="title">Pet Information</h1>
   <%= label_tag :image %>
   <%= text_field_tag :img %><br/>
   <%= label_tag :name %>
