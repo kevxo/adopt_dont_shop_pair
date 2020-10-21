@@ -15,11 +15,11 @@ describe "When I'm taken to '/pets/:id/edit'" do
 
     visit "/pets/#{pet2.id}/edit"
 
-    fill_in 'pet[img]',	with: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg'
-    fill_in 'pet[name]',	with: 'Tiger'
-    fill_in 'pet[description]',	with: 'Small and Cute'
-    fill_in 'pet[approximate_age]',	with: '2 years'
-    fill_in 'pet[sex]',	with: 'Male'
+    fill_in :img,	with: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg'
+    fill_in :name,	with: 'Tiger'
+    fill_in :description,	with: 'Small and Cute'
+    fill_in :approximate_age,	with: '2 years'
+    fill_in :sex,	with: 'Male'
     click_button 'Update Pet'
 
     expect(page).to have_content('Tiger')

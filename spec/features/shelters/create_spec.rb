@@ -8,11 +8,11 @@ RSpec.describe "As a user", type: :feature do
         create shelter and be redirected back to shelters' do
           visit '/shelters/new'
 
-          fill_in 'shelter[name]', with: 'Dog and Cats'
-          fill_in 'shelter[address]', with: '1234 spoon.st'
-          fill_in 'shelter[city]', with: 'Tampa'
-          fill_in 'shelter[state]', with: 'Florida'
-          fill_in 'shelter[zip]', with: '34638'
+          fill_in 'name', with: 'Dog and Cats'
+          fill_in 'address', with: '1234 spoon.st'
+          fill_in 'city', with: 'Tampa'
+          fill_in 'state', with: 'Florida'
+          fill_in 'zip', with: '34638'
 
           click_button 'Create Shelter'
           expect(page).to have_content('Dog and Cats')
@@ -61,11 +61,11 @@ RSpec.describe "As a user", type: :feature do
                                  user_name: user1.name)
         visit "/shelters/#{shelter1.id}/reviews/new"
 
-        fill_in 'review[title]',	with: 'My Opinion'
-        fill_in 'review[user_name]',	with: user1.name
-        fill_in 'review[rating]',	with: 4
-        fill_in 'review[content]',	with: 'The place is great. Customer service is awesome.'
-        fill_in 'review[picture]',	with: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
+        fill_in 'title',	with: 'My Opinion'
+        fill_in 'user_name',	with: user1.name
+        fill_in 'rating',	with: 4
+        fill_in 'content',	with: 'The place is great. Customer service is awesome.'
+        fill_in 'picture',	with: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
 
         click_button 'Submit Review'
 
@@ -102,9 +102,9 @@ RSpec.describe "As a user", type: :feature do
         user_id = user1.id
         user_name = user1.name
         visit "/shelters/#{shelter1.id}/reviews/new"
-        fill_in 'review[user_name]',	with: user1.name
-        fill_in 'review[content]',	with: content
-        fill_in 'review[picture]',	with: picture
+        fill_in 'user_name',	with: user1.name
+        fill_in 'content',	with: content
+        fill_in 'picture',	with: picture
 
 
         click_button 'Submit Review'
@@ -127,20 +127,20 @@ RSpec.describe "As a user", type: :feature do
 
         visit "/shelters/#{shelter1.id}/reviews/new"
 
-        fill_in 'review[title]',	with: 'My Opinion'
-        fill_in 'review[user_name]',	with: 'bob'
-        fill_in 'review[rating]',	with: 4
-        fill_in 'review[content]',	with: 'The place is great. Customer service is awesome.'
-        fill_in 'review[picture]',	with: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
+        fill_in 'title',	with: 'My Opinion'
+        fill_in 'user_name',	with: 'bob'
+        fill_in 'rating',	with: 4
+        fill_in 'content',	with: 'The place is great. Customer service is awesome.'
+        fill_in 'picture',	with: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Bob_Gibson_crop.JPG'
 
         click_button("Submit Review")
 
         expect(page).to have_content("Review not created: User couldn't be found.")
-        expect(find_field('review[picture]').value).to eq(nil)
-        expect(find_field('review[title]').value).to eq(nil)
-        expect(find_field('review[user_name]').value).to eq(nil)
-        expect(find_field('review[rating]').value).to eq(nil)
-        expect(find_field('review[content]').value).to eq(nil)
+        expect(find_field('picture').value).to eq(nil)
+        expect(find_field('title').value).to eq(nil)
+        expect(find_field('user_name').value).to eq(nil)
+        expect(find_field('rating').value).to eq(nil)
+        expect(find_field('content').value).to eq(nil)
         expect(page).to have_button("Submit Review")
 
       end

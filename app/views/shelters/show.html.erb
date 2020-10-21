@@ -1,4 +1,6 @@
-<a class="index_links" href="/shelters/<%= @shelter.id %>/pets">Pet Index</a>
+<a class="index_links" href="/shelters/<%= @shelter.id %>/pets">Pet Index for This Shelter</a>
+<a class="index_links" href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a>
+<a class="index_links" href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>
 
 <p class="info"><b> ID: <%= @shelter.id %> - <%= @shelter.name %></b><br/>
 <%= @shelter.address %><br/>
@@ -6,30 +8,25 @@
 <%= @shelter.state %><br/>
 <%= @shelter.zip%><br/>
 
-<section id="shelter-stats">
+<section id="shelter-stats" class="info">
     <h3>Amount of Pets - <%= @shelter.pet_count %></h3>
     <h3>Applications on file - <%= @shelter.number_of_applications %></h3>
 </section>
 
-<a href="/shelters/<%= @shelter.id %>/edit">Update Shelter</a></p>
-
 <section id="shelter-<%= @shelter.id %>">
-  <form class="delete_index" action="/shelters/<%= @shelter.id %>" method="POST">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit"  value="Delete Shelter"/>
-  </form>
+  <%= button_to "Delete Shelter", "/shelters/#{@shelter.id}", method: :delete, class: "delete_index" %>
 </section>
 
-<% if @shelter.reviews != [] %>
-  <h2>Reviews</h2>
 
-  <section id="review-stats">
+<% if @shelter.reviews != [] %>
+  <h2 class="title">Reviews</h2>
+
+  <section class="title" id="review-stats">
     <h3>Average Shelter Rating - <%= @shelter.average_rating.round(2) %></h3>
   </section>
 
   <% @reviews.each do |review| %>
-    <section id="review-<%= review.id %>">
+    <section class="info" id="review-<%= review.id %>">
       <img src="<%= review.picture %>" width="100px">
       <p>Name - <%= review.user_name %></p>
       <p>Title - <%= review.title %></p>
@@ -40,4 +37,3 @@
     </section><br><br>
   <% end %>
 <% end %>
-  <a href="/shelters/<%= @shelter.id %>/reviews/new">New Review</a>

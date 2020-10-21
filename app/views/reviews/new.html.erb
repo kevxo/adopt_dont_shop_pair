@@ -1,15 +1,15 @@
 <%= form_tag "/shelters/#{@shelter_id}/reviews", method: 'post', class: "info" do %>
-  <h1>Review Information</h1>
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <p>Enter a Picture(optional):</p>
-  <input type='text' name='review[picture]'/><br/>
-  <p>Enter Review Title:</p>
-  <input type='text' name='review[title]'/><br/>
-  <p>Enter User Name:</p>
-  <input type='text' name='review[user_name]'/><br/>
-  <p>Enter Rating:</p>
-  <input type='text' name='review[rating]'/><br/>
-  <p>Enter content:</p>
-  <input type='text' name='review[content]'/><br/>
-  <input type='submit' value="Submit Review"/>
+  <h1 class="title">Review Information</h1>
+
+  <%= label_tag :picture %>(optional)
+  <%= text_field_tag :picture %><br/>
+  <%= label_tag :title %>
+  <%= text_field_tag :title %><br/>
+  <%= label_tag :user_name %>
+  <%= text_field_tag :user_name %><br/>
+  <%= label_tag :rating %>
+  <%= number_field_tag :rating %><br/>
+  <%= label_tag :content %>
+  <%= text_field_tag :content %><br/>
+  <%= submit_tag "Submit Review" %>
 <% end %>

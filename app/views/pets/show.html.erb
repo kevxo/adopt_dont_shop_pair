@@ -1,4 +1,4 @@
-<section id="view-applications">
+<section id="view-applications" class="index_links">
   <%= link_to "View All Applications For This Pet", "/pets/#{@pet.id}/applications" %>
 </section><br>
 
@@ -10,8 +10,4 @@
   Sex - <%= @pet.sex %><br/>
   Adoptable - <%= @pet.adoptable %><br/>
   <a href="/pets/<%= @pet.id %>/edit">Update Pet</a>
-  <form class="delete_index" action="/pets/<%= @pet.id %>" method="POST">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="Delete Pet"/>
-  </form></p>
+  <%= button_to "Delete Pet", "/pets/#{@pet.id}", method: :delete, class: "delete_index" %></p>

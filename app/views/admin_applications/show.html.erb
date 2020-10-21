@@ -1,10 +1,10 @@
-<section id="application-status">
+<section id="application-status" class="title">
   <b>Application Status: </b><i><%= @application.application_status %></i>
 </section><br>
 
-<h4>Pets</h4>
+<h4 class="title">Pets</h4>
 <% @application.pets.each do |pet| %>
-  <section id="pet-<%= pet.id %>-application">
+  <section id="pet-<%= pet.id %>-application" class="info">
     <b><%= pet.name %></b>
     <% if @application.pet_application_status(pet.id) == "Pending" && pet.adoptable?%>
       <%= form_tag "/admin/applications/#{@application.id}?pet_id=#{pet.id}", method: :patch do %>

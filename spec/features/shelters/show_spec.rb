@@ -55,11 +55,11 @@ describe 'As a visitor' do
                                 zip: '34638')
       visit "/shelters/#{shelter1.id}"
 
-      expect(page).to have_link('Pet Index')
+      expect(page).to have_link('Pet Index for This Shelter')
 
       visit "/shelters/#{shelter1.id}"
 
-      click_link 'Pet Index'
+      click_link 'Pet Index for This Shelter'
 
       expect(current_path).to eq("/shelters/#{shelter1.id}/pets")
     end
