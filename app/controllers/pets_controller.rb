@@ -46,14 +46,14 @@ class PetsController < ApplicationController
   end
 
   def destroy
-    @pet = Pet.find(params[:id])
-    @shelter = Shelter.find(@pet.shelter_id)
-    if !@pet.cant_delete_pet?
+    pet = Pet.find(params[:id])
+    shelter = Shelter.find(pet.shelter_id)
+    if pet.deletable?
       Pet.destroy(params[:id])
       redirect_to '/pets'
     else
       flash[:notice] = "Pet can't be deleted: Pet has an approved application."
-      redirect_to "/shelters/#{@shelter.id}/pets"
+      redirect_to "/shelters/#{shelter.id}/pets"
     end
   end
 end

@@ -270,13 +270,13 @@ describe 'As a visitor ' do
                                      sex: 'male',
                                      description: 'He may look dumb, and he is.')
 
-      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Approved')
       application_2 = Application.create!(user_name: user2.name, user_id: user2.id, application_status: 'Pending')
 
       pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
-      pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Approved')
+      pet_app_2 = PetApplication.create!(pet_id: pet_1.id, application_id: application_2.id, application_status: 'Approved')
       pet_app_3 = PetApplication.create!(pet_id: pet_3.id, application_id: application_2.id, application_status: 'Rejected')
-      pet_app_4 = PetApplication.create!(pet_id: pet_4.id, application_id: application_2.id, application_status: 'Pending')
+
 
       visit "/shelters/#{shelter1.id}/pets"
 
@@ -287,23 +287,11 @@ describe 'As a visitor ' do
 
       expect(page).to have_content("Pet can't be deleted: Pet has an approved application.")
 
-      within "#pet-delete-#{pet_2.id}" do
-        expect(page).to have_button('Delete Pet')
-        click_button 'Delete Pet'
-      end
-
-      expect(page).to have_content("Pet can't be deleted: Pet has an approved application.")
-
       visit "/shelters/#{shelter_2.id}/pets"
+
       within "#pet-delete-#{pet_3.id}" do
         expect(page).to have_button('Delete Pet')
-        click_button 'Delete Pet'
-      end
-
-      expect(current_path).to eq('/pets')
-
-      within "#pet-delete-#{pet_4.id}" do
-        expect(page).to have_button('Delete Pet')
+        expect(page).to_not have_css("#pet-delete-#{pet_3.id}")
         click_button 'Delete Pet'
       end
 
