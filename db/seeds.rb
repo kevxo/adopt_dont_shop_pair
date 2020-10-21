@@ -9,6 +9,8 @@
 shelter_1 = Shelter.create!(name: "Rocky Mountain High", address: "1234 fake st.", city: "Denver", state: "CO", zip: "45505")
 shelter_2 = Shelter.create!(name: "Colorado Cares", address: "867 magnolia st", city: "Lakewood", state: "CO", zip: "80022")
 shelter_3 = Shelter.create!(name: "Mile High Adoptive Services", address: "500 w first st", city: "Centennial", state: "CO", zip: "80022")
+
+
 pet_1 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/austalian-shepherd-dog-breed-pictures/10-threequarters.jpg",
                   name: "Tony",
                   approximate_age: "2",
@@ -34,6 +36,18 @@ pet_5 = shelter_1.pets.create!(img: "https://dogtime.com/assets/uploads/gallery/
                               approximate_age: "4",
                               sex: "female",
                               description: "Don't let her beauty fool ya, she's a stone-cold killer.")
+pet_6 = shelter_3.Pet.create(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                  name: 'Mittens',
+                  description: "He's healthy",
+                  approximate_age: '6 years',
+                  sex: 'Male')
+
+pet_7 = shelter_3.Pet.create(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+                  name: 'Tiger',
+                  description: "If you're a cat person, then Tiger is for you.",
+                  approximate_age: '4 years',
+                  sex: 'Male')
+
 
 user_1 = User.create!(name: 'Bob Woodword',
                     street_address: '1234 Test Dr',
@@ -58,7 +72,7 @@ user_4 = User.create!(name: "Geraldine Grossman",
                     city: 'Aurora',
                     state: 'Colorado',
                     zip: '80018')
-                    
+
 review_1 = shelter_2.reviews.new(title: "Colorado Cares is the best", rating: 5,
           content: "I absolutely love this shelter. I have found the best friends a man could have!",
           user_name: user_1.name)
@@ -75,16 +89,36 @@ review_3 = shelter_2.reviews.new(title: "Colorado Cares, not my style", rating: 
 review_3.user_id = user_2.id
 review_3.save!
 
+review_4 = shelter_3.reviews.new(title: "Colorado Cares, not my style", rating: 4,
+          content: "I was not particularly fond of cats, but this shelter has changed me into a cat person!", user_name: user_4.name)
+review_4.user_id = user_4.id
+review_4.save!
+
 application_1 = Application.create!(user_name: user_1.name, address: "#{user_1.street_address}, #{user_1.city}, #{user_1.state} #{user_1.zip}",
                                   description: "I am an experienced pet owner for 5 years and I just love this pet!",
                                   pet_names: "#{pet_1.name}, #{pet_2.name}", user_id: user_1.id)
 
 application_2 = Application.create!(user_name: user_2.name, address: "#{user_2.street_address}, #{user_2.city}, #{user_2.state} #{user_2.zip}",
                                   description: "I would be a loving owner for any of these pets. Enough said.",
-                                  pet_names: "#{pet_2.name}, #{pet_4.name}", user_id: user_2.id)
+                                  pet_names: "#{pet_2.name}, #{pet_4.name}, #{pet_5.name}", user_id: user_2.id)
+
+application_3 = Application.create!(user_name: user_2.name,
+                                  description: "I would be a loving owner for any of these pets. Enough said.",
+                                  pet_names: "#{pet_1.name}, #{pet_3.name}, #{pet_4.name}, #{pet_7.name}", user_id: user_2.id)
+
+application_4 = Application.create!(user_name: user_4.name,
+                                  description: "I would be a loving owner for any of these pets. Enough said.",
+                                  pet_names: "#{pet_5.name}, #{pet_6.name}, #{pet_6.name}", user_id: user_4.id)
 
 PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id)
 PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id)
 PetApplication.create!(pet_id: pet_2.id, application_id: application_2.id)
 PetApplication.create!(pet_id: pet_4.id, application_id: application_2.id)
 PetApplication.create!(pet_id: pet_5.id, application_id: application_2.id)
+PetApplication.create!(pet_id: pet_1.id, application_id: application_3.id)
+PetApplication.create!(pet_id: pet_3.id, application_id: application_3.id)
+PetApplication.create!(pet_id: pet_4.id, application_id: application_3.id)
+PetApplication.create!(pet_id: pet_7.id, application_id: application_3.id)
+PetApplication.create!(pet_id: pet_5.id, application_id: application_4.id)
+PetApplication.create!(pet_id: pet_6.id, application_id: application_4.id)
+PetApplication.create!(pet_id: pet_7.id, application_id: application_4.id)
