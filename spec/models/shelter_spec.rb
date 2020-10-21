@@ -110,10 +110,10 @@ describe Shelter, type: :model do
                           state: 'Colorado',
                           zip: '12345')
       user2 = User.create!(name: 'Jeff Daniels',
-                            street_address: '455 west dr',
-                            city: 'Denver',
-                            state: 'Colorado',
-                            zip: '87709')
+                           street_address: '455 west dr',
+                           city: 'Denver',
+                           state: 'Colorado',
+                           zip: '87709')
 
       shelter1 = Shelter.create!(name: 'Dogs and Cats',
                                  address: '1234 spoon.st',
@@ -148,7 +148,7 @@ describe Shelter, type: :model do
                                      sex: 'male',
                                      description: 'He may look dumb, and he is.')
 
-      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Approved')
       application_2 = Application.create!(user_name: user2.name, user_id: user2.id, application_status: 'Pending')
 
       pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
@@ -156,8 +156,9 @@ describe Shelter, type: :model do
       pet_app_3 = PetApplication.create!(pet_id: pet_3.id, application_id: application_2.id, application_status: 'Rejected')
       pet_app_4 = PetApplication.create!(pet_id: pet_4.id, application_id: application_2.id, application_status: 'Pending')
 
-      expect(shelter1.cant_delete?).to eq(true)
-      expect(shelter_2.cant_delete?).to eq(false)
+
+      expect(shelter1.deletable?).to eq(false)
+      expect(shelter_2.deletable?).to eq(true)
     end
   end
 end

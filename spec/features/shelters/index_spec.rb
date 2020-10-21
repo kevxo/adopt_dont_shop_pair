@@ -77,8 +77,8 @@ describe 'As a visitor' do
       visit '/shelters'
 
       within "#shelter-#{shelter1.id}" do
-        expect(page).to have_button('Delete')
-        click_button 'Delete'
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
       end
 
       expect(current_path).to eq('/shelters')
@@ -148,7 +148,7 @@ describe 'As a visitor' do
                           adoptable: 'No',
                           shelter_id: shelter1.id)
 
-      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Approved')
 
       pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
       pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Approved')
@@ -158,8 +158,16 @@ describe 'As a visitor' do
       visit '/shelters'
 
       within "#shelter-#{shelter1.id}" do
-        expect(page).to have_button('Delete')
-        click_button 'Delete'
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
+      end
+      expect(page).to have_content("Shelter can't be deleted: Pet status is pending/approved")
+
+      visit "/shelters/#{shelter1.id}"
+
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
       end
       expect(page).to have_content("Shelter can't be deleted: Pet status is pending/approved")
     end
@@ -201,8 +209,8 @@ describe 'As a visitor' do
       visit '/shelters'
 
       within "#shelter-#{shelter1.id}" do
-        expect(page).to have_button('Delete')
-        click_button 'Delete'
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
       end
       expect(current_path).to eq('/shelters')
     end
