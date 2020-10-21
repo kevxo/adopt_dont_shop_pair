@@ -10,8 +10,10 @@
   </head>
 
   <body>
+    <a class="index_links" href="/shelters">Shelter Index</a>
+    <a class="index_links" href="/pets">Pet Index</a>
     <% flash.each do |type, message| %>
-      <p><%= message %></p>
+      <p class="error_message"><b><%= message %></b>*</p>
     <% end %>
 
     <%= yield %>
