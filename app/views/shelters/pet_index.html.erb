@@ -17,7 +17,7 @@
   Sex - <%= pet.sex %><br/>
   Adoptable - <%= pet.adoptable %><br/>
   Shelter ID - <%= pet.shelter_id %></h3>
-  <form class="delete_index" action="/pets/<%= pet.id %>" method="POST">
+  <form id="pet-delete-<%= pet.id %>" class="delete_index" action="/pets/<%= pet.id %>" method="POST">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="Delete Pet"/>

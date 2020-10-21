@@ -77,8 +77,8 @@ describe 'As a visitor' do
       visit '/shelters'
 
       within "#shelter-#{shelter1.id}" do
-        expect(page).to have_button('Delete')
-        click_button 'Delete'
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
       end
 
       expect(current_path).to eq('/shelters')
@@ -96,10 +96,10 @@ describe 'As a visitor' do
                                 zip: '34638')
       visit '/shelters'
 
-      expect(page).to have_link("#{shelter1.name}")
+      expect(page).to have_link(shelter1.name.to_s)
 
       visit '/shelters'
-      click_link "#{shelter1.name}"
+      click_link shelter1.name.to_s
 
       expect(current_path).to eq("/shelters/#{shelter1.id}")
     end
@@ -118,6 +118,102 @@ describe 'As a visitor' do
       click_link 'Pet Index'
 
       expect(current_path).to eq('/pets')
+    end
+  end
+
+  describe 'If a shelter has approved applications on them' do
+    it 'cannot delete shelter' do
+      user = User.create!(name: 'Bob',
+                          street_address: '1234 Test Dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '12345')
+
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+
+      pet_1 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                          name: 'Mittens',
+                          approximate_age: '6 years',
+                          sex: 'Male',
+                          shelter_id: shelter1.id)
+
+      pet_2 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+                          name: 'Tiger',
+                          approximate_age: '4 years',
+                          sex: 'Male',
+                          adoptable: 'No',
+                          shelter_id: shelter1.id)
+
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Approved')
+
+      pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
+      pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Approved')
+
+      application_pets = PetApplication.where(application_id: application_1.id)
+
+      visit '/shelters'
+
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
+      end
+      expect(page).to have_content("Shelter can't be deleted: Pet status is pending/approved")
+
+      visit "/shelters/#{shelter1.id}"
+
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
+      end
+      expect(page).to have_content("Shelter can't be deleted: Pet status is pending/approved")
+    end
+  end
+
+  describe 'If a shelter doesnt have a pet with an approved application' do
+    it 'can delete shelter if no applications are approved' do
+      user = User.create!(name: 'Bob',
+                          street_address: '1234 Test Dr',
+                          city: 'Denver',
+                          state: 'Colorado',
+                          zip: '12345')
+
+      shelter1 = Shelter.create!(name: 'Dogs and Cats',
+                                 address: '1234 spoon.st',
+                                 city: 'Tampa',
+                                 state: 'Florida',
+                                 zip: '34638')
+
+      pet_1 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg',
+                          name: 'Mittens',
+                          approximate_age: '6 years',
+                          sex: 'Male',
+                          shelter_id: shelter1.id)
+
+      pet_2 = Pet.create!(img: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Adorable-animal-cat-20787.jpg',
+                          name: 'Tiger',
+                          approximate_age: '4 years',
+                          sex: 'Male',
+                          adoptable: 'No',
+                          shelter_id: shelter1.id)
+
+      application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
+
+      pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Pending')
+      pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Rejected')
+
+      application_pets = PetApplication.where(application_id: application_1.id)
+      visit '/shelters'
+
+      within "#shelter-#{shelter1.id}" do
+        expect(page).to have_button('Delete Shelter')
+        click_button 'Delete Shelter'
+      end
+      expect(current_path).to eq('/shelters')
+      expect(page).to_not have_css("#shelter-#{shelter1.id}")
     end
   end
 end
