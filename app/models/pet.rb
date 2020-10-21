@@ -1,7 +1,7 @@
 class Pet < ApplicationRecord
   belongs_to :shelter
-  has_many :pet_applications
-  has_many :applications, through: :pet_applications
+  has_many :pet_applications, dependent: :destroy
+  has_many :applications, through: :pet_applications, dependent: :destroy
 
   validates_presence_of :name
   after_initialize :default_status
@@ -20,9 +20,12 @@ class Pet < ApplicationRecord
     self.adoptable == "Yes"
   end
 
-  def cant_delete_pet?
-    pet_applications.pluck(:application_status).any? do |application|
-      application == 'Approved'
+  def deletable?
+    self.applications.none? do |application|
+      application.application_status == "Approved"
     end
+    # pet_applications.pluck(:application_status).any? do |application|
+    #   application == 'Approved'
+    # end
   end
 end
