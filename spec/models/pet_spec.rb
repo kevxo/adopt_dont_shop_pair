@@ -143,17 +143,17 @@ describe Pet do
                                      description: 'He may look dumb, and he is.')
 
       application_1 = Application.create!(user_name: user.name, user_id: user.id, application_status: 'Pending')
-      application_2 = Application.create!(user_name: user2.name, user_id: user2.id, application_status: 'Pending')
+      application_2 = Application.create!(user_name: user2.name, user_id: user2.id, application_status: 'Approved')
 
       pet_app_1 = PetApplication.create!(pet_id: pet_1.id, application_id: application_1.id, application_status: 'Approved')
       pet_app_2 = PetApplication.create!(pet_id: pet_2.id, application_id: application_1.id, application_status: 'Approved')
       pet_app_3 = PetApplication.create!(pet_id: pet_3.id, application_id: application_2.id, application_status: 'Rejected')
       pet_app_4 = PetApplication.create!(pet_id: pet_4.id, application_id: application_2.id, application_status: 'Pending')
 
-      expect(pet_1.cant_delete_pet?).to eq(true)
-      expect(pet_2.cant_delete_pet?).to eq(true)
-      expect(pet_3.cant_delete_pet?).to eq(false)
-      expect(pet_4.cant_delete_pet?).to eq(false)
+      expect(pet_1.deletable?).to eq(true)
+      expect(pet_2.deletable?).to eq(true)
+      expect(pet_3.deletable?).to eq(false)
+      expect(pet_4.deletable?).to eq(false)
     end
   end
 end
